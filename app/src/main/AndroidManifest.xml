@@ -34,7 +34,7 @@
             android:name=".PaperActivity"
             android:exported="false" />
         <activity
-            android:name=".NotificationsActivity"
+            android:name=".NoticeActivity"
             android:exported="false" />
         <activity
             android:name=".RecyclingGuideActivity"

@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button btnImageSearch;
     private Button btnRecyclingGuide;
-    private Button btnNotifications;
+    private Button btnNotice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +26,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnImageSearch = (Button) findViewById(R.id.btn_image_search);
         btnRecyclingGuide = (Button) findViewById(R.id.btn_recycling_guide);
-        btnNotifications = (Button) findViewById(R.id.btn_notifications);
+        btnNotice = (Button) findViewById(R.id.btn_notice);
 
         btnImageSearch.setOnClickListener(this);
         btnRecyclingGuide.setOnClickListener(this);
-        btnNotifications.setOnClickListener(this);
+        btnNotice.setOnClickListener(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.v("Recycling Guide", "Recycling Guide");
             Intent recyclingGuideIntent = new Intent(MainActivity.this, RecyclingGuideActivity.class);
             startActivity(recyclingGuideIntent);
-        } else if (view == btnNotifications) {
-            Log.v("Notifications", "Notifications");
-            Intent notificationsIntent = new Intent(MainActivity.this, NotificationsActivity.class);
-            startActivity(notificationsIntent);
+        } else if (view == btnNotice) {
+            Log.v("Notice", "Notice");
+            Intent noticeIntent = new Intent(MainActivity.this, NoticeActivity.class);
+            startActivity(noticeIntent);
         }
     }
 }

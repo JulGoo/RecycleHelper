@@ -21,7 +21,7 @@ tools:context=".MainActivity"
         app:layout_constraintTop_toBottomOf="@+id/tv_recycleHelper" />
 
     <Button
-    android:id="@+id/btn_notifications"
+    android:id="@+id/btn_notice"
     android:layout_width="160dp"
     android:layout_height="240dp"
     android:background="@drawable/announcement2"
