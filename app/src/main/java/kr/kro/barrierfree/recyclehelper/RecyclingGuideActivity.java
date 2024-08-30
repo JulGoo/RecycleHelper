@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,12 +15,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class RecyclingGuideActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnPaper;
-    private Button btnPet;
-    private Button btnMetal;
-    private Button btnGlass;
-    private Button btnVinyl;
-    private Button btnStyrofoam;
+    private ImageButton btnPaper;
+    private ImageButton btnPet;
+    private ImageButton btnMetal;
+    private ImageButton btnGlass;
+    private ImageButton btnVinyl;
+    private ImageButton btnStyrofoam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +28,12 @@ public class RecyclingGuideActivity extends AppCompatActivity implements View.On
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_recycling_guide);
 
-        btnPaper = (Button) findViewById(R.id.btn_paper);
-        btnPet = (Button) findViewById(R.id.btn_pet);
-        btnMetal = (Button) findViewById(R.id.btn_metal);
-        btnGlass = (Button) findViewById(R.id.btn_glass);
-        btnVinyl = (Button) findViewById(R.id.btn_vinyl);
-        btnStyrofoam = (Button) findViewById(R.id.btn_styrofoam);
+        btnPaper = findViewById(R.id.btn_paper);
+        btnPet = findViewById(R.id.btn_pet);
+        btnMetal = findViewById(R.id.btn_metal);
+        btnGlass = findViewById(R.id.btn_glass);
+        btnVinyl = findViewById(R.id.btn_vinyl);
+        btnStyrofoam = findViewById(R.id.btn_styrofoam);
 
         btnPaper.setOnClickListener(this);
         btnPet.setOnClickListener(this);

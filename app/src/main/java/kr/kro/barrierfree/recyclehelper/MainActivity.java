@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,9 +15,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnImageSearch;
-    private Button btnRecyclingGuide;
-    private Button btnNotice;
+    private ImageButton btnImageSearch;
+    private ImageButton btnRecyclingGuide;
+    private ImageButton btnNotice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +25,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        btnImageSearch = (Button) findViewById(R.id.btn_image_search);
-        btnRecyclingGuide = (Button) findViewById(R.id.btn_recycling_guide);
-        btnNotice = (Button) findViewById(R.id.btn_notice);
+        btnImageSearch = findViewById(R.id.btn_image_search);
+        btnRecyclingGuide = findViewById(R.id.btn_recycling_guide);
+        btnNotice = findViewById(R.id.btn_notice);
 
         btnImageSearch.setOnClickListener(this);
         btnRecyclingGuide.setOnClickListener(this);
