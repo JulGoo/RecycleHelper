@@ -11,7 +11,7 @@
         android:id="@+id/tv_notice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="50dp"
         android:text="공지사항"
         android:textSize="50sp"
         android:textStyle="bold"

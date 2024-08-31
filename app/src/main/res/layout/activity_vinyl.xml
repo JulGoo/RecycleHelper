@@ -7,4 +7,32 @@
     android:layout_height="match_parent"
     tools:context=".VinylActivity">
 
+    <TextView
+        android:id="@+id/tv_vinyl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50sp"
+        android:text="비닐"
+        android:textColor="@color/black"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/sv_vinyl"
+        android:layout_width="409dp"
+        android:layout_height="591dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_vinyl">
+
+        <TextView
+            android:id="@+id/tv_vinyl2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\t\t비닐류 \n과자 봉지, 라면 봉지, 비닐 랩 등은 이물질을 제거하고 깨끗한 상태로 배출합니다. 물기와 음식물이 묻지 않도록 하고, 가능한 한 펼쳐서 배출해주세요. \n\n\t\t비닐 포장재 \n비닐 쇼핑백, 포장용 비닐 등은 내용물을 비우고, 다른 재질(테이프, 스티커 등)이 붙어있는 경우 제거 후 배출합니다. \n\n\t\t재활용 안 되는 것 \n오염된 비닐(기름, 음식물 등이 묻은 비닐) \n영수증, 라벨 등 복합 재질이 섞인 비닐 \n일회용 비닐 장갑, 비닐봉투 등 재활용이 어려운 비닐류 \n고무장갑, 장판, 돗자리, 섬유류"
+            android:textSize="20sp" />
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

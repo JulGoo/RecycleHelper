@@ -7,4 +7,32 @@
     android:layout_height="match_parent"
     tools:context=".GlassActivity">
 
+    <TextView
+        android:id="@+id/tv_glass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="유리병류"
+        android:textColor="@color/black"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/sv_glass"
+        android:layout_width="409dp"
+        android:layout_height="591dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_glass">
+
+        <TextView
+            android:id="@+id/tv_glass2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\t\t유리병류 \n맥주병, 소주병 등 빈병은 깨지지 않도록 주의하며 배출합니다. 내용물을 비우고 물로 헹군 후 배출해주세요. 라벨(종이)과 플라스틱 뚜껑은 제거 후 배출합니다. \n\n\t\t깨진 유리 \n깨진 유리는 종이에 싸서 일반쓰레기로 배출해주세요. 다치지 않도록 주의하며, 유리 조각은 따로 모아 배출합니다. \n\n\t\t유리 용기류 \n음료수 병, 소스 병, 향수병 등은 내용물을 비우고 배출해주세요. 플라스틱 뚜껑이나 다른 재질의 부속품은 분리하여 각각 배출합니다. \n\n\t\t재활용 안 되는 것 \n오염된 유리병(페인트, 기름 등이 묻은 유리병) \n강화유리(창문, 거울, 자동차 유리) \n유리잔, 도자기, 사기그릇 등의 비유리 제품"
+            android:textSize="20sp" />
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
