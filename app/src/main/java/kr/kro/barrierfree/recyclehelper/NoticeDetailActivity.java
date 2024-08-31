@@ -2,6 +2,7 @@ package kr.kro.barrierfree.recyclehelper;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -51,7 +52,7 @@ public class NoticeDetailActivity extends AppCompatActivity {
         String date = intent.getStringExtra("date");
 
         tvTitle.setText(title);
-        tvDescription.setText(description);
+        tvDescription.setText(Html.fromHtml(description));
         tvDate.setText(date);
     }
 }

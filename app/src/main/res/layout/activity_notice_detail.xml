@@ -9,32 +9,34 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="364dp"
-        android:layout_height="71dp"
+        android:layout_width="371dp"
+        android:layout_height="94dp"
         android:layout_marginStart="19dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="19dp"
         android:layout_marginBottom="44dp"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:text="Title"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/tv_date"
-        android:layout_width="202dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="9dp"
+        android:layout_width="145dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="149dp"
         android:gravity="right"
         android:text="TextView"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_title"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
@@ -42,8 +44,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
