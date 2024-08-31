@@ -7,6 +7,14 @@ public class Notice {
     private String description;
     private Date date;
 
+    public Notice() {}
+
+    public Notice(String title, String description, Date date){
+        this.title = title;
+        this.description = description;
+        this.date = date;
+    }
+
     public String getTitle() {
         return title;
     }

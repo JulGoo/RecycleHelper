@@ -1,5 +1,6 @@
 package kr.kro.barrierfree.recyclehelper;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
 
     private List<Notice> noticeList;
 
-    public NoticeAdapter(List<Notice> noticeList)  {
+    public NoticeAdapter(List<Notice> noticeList) {
         this.noticeList = noticeList;
     }
 
@@ -26,22 +27,24 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NoticeAdapter.NoticeViewHolder holder, int position) {
+    public void onBindViewHolder(NoticeViewHolder holder, int position) {
         Notice notice = noticeList.get(position);
+        Log.d("Adapter", "Binding position: " + position + ", Title: " + notice.getTitle());
         holder.tvTitle.setText(notice.getTitle());
     }
 
+
     @Override
     public int getItemCount() {
-        return noticeList.size();
+        return noticeList != null ? noticeList.size() : 0;
     }
 
-    public static class NoticeViewHolder extends RecyclerView.ViewHolder{
+    public static class NoticeViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle;
 
-        public NoticeViewHolder(@NonNull View itemView){
+        public NoticeViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTitle=itemView.findViewById(R.id.tv_title);
+            tvTitle = itemView.findViewById(R.id.tv_title);
         }
     }
 }
