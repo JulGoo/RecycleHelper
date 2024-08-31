@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50sp"
+        android:contentDescription="비닐"
         android:text="비닐"
         android:textColor="@color/black"
         android:textSize="60sp"
