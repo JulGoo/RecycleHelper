@@ -11,9 +11,9 @@
         android:id="@+id/tv_metal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="50sp"
         android:contentDescription="금속캔 고철"
-        android:text="금속캔 고철"
+        android:text="금속캔/고철"
         android:textColor="@color/black"
         android:textSize="50sp"
         android:textStyle="bold"
@@ -23,8 +23,13 @@
 
     <ScrollView
         android:id="@+id/sv_metal"
-        android:layout_width="409dp"
-        android:layout_height="591dp"
+        android:layout_width="409sp"
+        android:layout_height="591sp"
+        android:layout_marginStart="16sp"
+        android:layout_marginTop="5sp"
+        android:layout_marginEnd="16sp"
+        android:layout_marginBottom="16sp"
+        android:padding="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_metal">

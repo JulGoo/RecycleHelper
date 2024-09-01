@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
-
-    <!-- 제목 -->
+    <!--  제목  -->
     <TextView
         android:id="@+id/textview_title"
         android:layout_width="wrap_content"
