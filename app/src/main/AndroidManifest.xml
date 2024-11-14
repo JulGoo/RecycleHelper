@@ -13,6 +13,39 @@
         android:theme="@style/Theme.RecycleHelper"
         tools:targetApi="31">
         <activity
+            android:name=".StyrofoamGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VinylGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlasticGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GlassGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CanGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PaperGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NoticeContentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NoticeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RecycleGuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ImgSearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VoiceSearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
