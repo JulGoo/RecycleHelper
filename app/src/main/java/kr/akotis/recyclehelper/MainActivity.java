@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent noticeIntent = new Intent(MainActivity.this, VoiceSearchActivity.class);
             startActivity(noticeIntent);
         } else if (view == btnRecyclingGuide) {
-            Log.v("Recycling Guide", "Recycling Guide");
+            Log.v("RecyclingGuide", "RecyclingGuide");
             Intent recyclingGuideIntent = new Intent(MainActivity.this, RecycleGuideActivity.class);
             startActivity(recyclingGuideIntent);
         } else if (view == btnNotice) {
