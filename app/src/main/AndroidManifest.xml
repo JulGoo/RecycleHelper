@@ -40,7 +40,7 @@
             android:name=".recycleGuide.PaperGuideActivity"
             android:exported="false" />
         <activity
-            android:name=".notice.NoticeEetailActivity"
+            android:name=".notice.NoticeDetailActivity"
             android:exported="false" />
         <activity
             android:name=".notice.NoticeActivity"
