@@ -1,4 +1,4 @@
-package kr.akotis.recyclehelper;
+package kr.akotis.recyclehelper.recycleGuide;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import kr.akotis.recyclehelper.R;
 
 public class GlassGuideActivity extends AppCompatActivity {
 

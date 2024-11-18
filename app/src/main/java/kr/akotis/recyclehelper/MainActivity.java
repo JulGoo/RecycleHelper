@@ -12,6 +12,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import kr.akotis.recyclehelper.community.CommunityActivity;
+import kr.akotis.recyclehelper.notice.NoticeActivity;
+import kr.akotis.recyclehelper.recycleGuide.RecycleGuideActivity;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageButton btnImageSearch;
@@ -63,11 +67,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.v("Notice", "Notice");
             Intent noticeIntent = new Intent(MainActivity.this, NoticeActivity.class);
             startActivity(noticeIntent);
-            }
-//        } else if (view == btnCommunity) {
-//            Log.v("Community", "Community");
-//            Intent noticeIntent = new Intent(MainActivity.this, CommunityActivity.class);
-//            startActivity(noticeIntent);
-//        }
+        } else if (view == btnCommunity) {
+            Log.v("Community", "Community");
+            Intent noticeIntent = new Intent(MainActivity.this, CommunityActivity.class);
+            startActivity(noticeIntent);
+        }
     }
 }

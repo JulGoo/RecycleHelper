@@ -13,40 +13,40 @@
         android:theme="@style/Theme.RecycleHelper"
         tools:targetApi="31">
         <activity
-            android:name=".CommunityDetailActivity"
+            android:name=".community.CommunityDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".CommunityActivity"
+            android:name=".community.CommunityActivity"
             android:exported="false" />
         <activity
             android:name=".NoticeDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".StyrofoamGuideActivity"
+            android:name=".recycleGuide.StyrofoamGuideActivity"
             android:exported="false" />
         <activity
-            android:name=".VinylGuideActivity"
+            android:name=".recycleGuide.VinylGuideActivity"
             android:exported="false" />
         <activity
-            android:name=".PlasticGuideActivity"
+            android:name=".recycleGuide.PlasticGuideActivity"
             android:exported="false" />
         <activity
-            android:name=".GlassGuideActivity"
+            android:name=".recycleGuide.GlassGuideActivity"
             android:exported="false" />
         <activity
-            android:name=".CanGuideActivity"
+            android:name=".recycleGuide.CanGuideActivity"
             android:exported="false" />
         <activity
-            android:name=".PaperGuideActivity"
+            android:name=".recycleGuide.PaperGuideActivity"
             android:exported="false" />
         <activity
-            android:name=".NoticeEetailActivity"
+            android:name=".notice.NoticeEetailActivity"
             android:exported="false" />
         <activity
-            android:name=".NoticeActivity"
+            android:name=".notice.NoticeActivity"
             android:exported="false" />
         <activity
-            android:name=".RecycleGuideActivity"
+            android:name=".recycleGuide.RecycleGuideActivity"
             android:exported="false" />
         <activity
             android:name=".ImgSearchActivity"
