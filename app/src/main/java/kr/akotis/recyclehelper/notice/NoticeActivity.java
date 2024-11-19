@@ -38,7 +38,7 @@ public class NoticeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_notice);
 
-        rv = findViewById(R.id.recycler_view);
+        rv = findViewById(R.id.recycler_notice);
         rv.setLayoutManager(new LinearLayoutManager(this));
         noticeList = new ArrayList<>();
         adapter = new NoticeAdapter(noticeList, this);
@@ -47,7 +47,7 @@ public class NoticeActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("Notice");
         fetchNotice();
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.recycler_view), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.recycler_notice), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
