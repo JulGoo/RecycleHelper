@@ -56,6 +56,7 @@ public class NoticeActivity extends AppCompatActivity {
 
     private void fetchNotice() {
         databaseReference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 noticeList.clear();
