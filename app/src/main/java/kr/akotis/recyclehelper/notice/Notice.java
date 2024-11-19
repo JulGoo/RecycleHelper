@@ -1,6 +1,11 @@
 package kr.akotis.recyclehelper.notice;
 
-public class Notice {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Notice implements Parcelable {
     private String title;
     private String content;
     private String date;
@@ -29,5 +34,37 @@ public class Notice {
 
     public String getImgUrl() {
         return imgUrl;
+    }
+
+    protected Notice(Parcel in) {
+        title = in.readString();
+        content = in.readString();
+        imgUrl = in.readString();
+        date = in.readString();
+    }
+
+    public static final Creator<Notice> CREATOR = new Creator<Notice>() {
+        @Override
+        public Notice createFromParcel(Parcel in) {
+            return new Notice(in);
+        }
+
+        @Override
+        public Notice[] newArray(int size) {
+            return new Notice[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(content);
+        dest.writeString(imgUrl);
+        dest.writeString(date);
     }
 }

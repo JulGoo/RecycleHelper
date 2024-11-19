@@ -52,7 +52,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/sv_notice_content_content"
+                android:id="@+id/tv_notice_content_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="content"

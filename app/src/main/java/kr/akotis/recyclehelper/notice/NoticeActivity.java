@@ -1,6 +1,7 @@
 package kr.akotis.recyclehelper.notice;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -38,10 +39,17 @@ public class NoticeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_notice);
 
+        // 리사이클러뷰 설정
         rv = findViewById(R.id.recycler_notice);
         rv.setLayoutManager(new LinearLayoutManager(this));
         noticeList = new ArrayList<>();
-        adapter = new NoticeAdapter(noticeList, this);
+        adapter = new NoticeAdapter(noticeList, position -> {
+            Notice clickedNotice = noticeList.get(position);
+            // 상세 페이지로 이동
+            Intent intent = new Intent(NoticeActivity.this, NoticeDetailActivity.class);
+            intent.putExtra("notice", clickedNotice);
+            startActivity(intent);
+        });
         rv.setAdapter(adapter);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Notice");
