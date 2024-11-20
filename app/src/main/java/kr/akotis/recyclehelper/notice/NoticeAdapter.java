@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
-import java.util.List;
-
 import kr.akotis.recyclehelper.R;
 
 public class NoticeAdapter extends FirebaseRecyclerAdapter<Notice, NoticeAdapter.NoticeViewHolder> {

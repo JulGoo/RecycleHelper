@@ -9,7 +9,6 @@ public class Notice implements Parcelable {
     private String date;
     private String imgUrls;
 
-    // 기본 생성자
     public Notice() {
     }
 
