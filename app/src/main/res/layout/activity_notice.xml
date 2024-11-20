@@ -17,13 +17,24 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
+            android:id="@+id/black"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:backgroundTint="@color/black"
-            app:srcCompat="@drawable/btn_back"
+            app:srcCompat="@color/black"
             android:scaleType="fitCenter"
-            android:layout_marginEnd="160dp" />
+            android:layout_margin="15dp" />
+
+        <TextView
+            android:id="@+id/tv_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="공지사항"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/white"/>
 
         <ImageButton
             android:id="@+id/btn_search"
@@ -34,14 +45,6 @@
             android:scaleType="fitCenter"
             android:layout_margin="15dp" />
 
-        <ImageButton
-            android:id="@+id/btn_menu"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:backgroundTint="@color/black"
-            app:tint="@color/white"
-            app:srcCompat="@drawable/btn_menu"
-            android:scaleType="fitCenter" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

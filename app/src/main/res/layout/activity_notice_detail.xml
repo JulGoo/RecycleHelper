@@ -5,61 +5,68 @@
     android:id="@+id/recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".notice.NoticeDetailActivity">
-    <ScrollView
-        android:id="@+id/sv_notice_content"
+    <LinearLayout
+        android:id="@+id/ll_notice_detail_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+            android:id="@+id/btn_menu"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:backgroundTint="@color/black"
+            app:tint="@color/white"
+            app:srcCompat="@drawable/btn_menu"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_notice_content"
+    <LinearLayout
+        android:id="@+id/ll_notice_detail_detail2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16sp"
+        app:layout_constraintTop_toBottomOf="@id/ll_notice_detail_detail">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8sp" />
+        <TextView
+            android:id="@+id/tv_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20sp">
+            android:text="2024-00-00"
+            android:gravity="end"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/tv_notice_content_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16sp"
-                android:layout_gravity="center"
-                android:text="title"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Content..."
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_notice_content_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="2024-00-00"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginBottom="24sp" />
-
-            <TextView
-                android:id="@+id/tv_notice_content_sh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8sp"
-                android:text="Subheading"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_notice_content_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="content"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-    </ScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16sp"
+        app:layout_constraintTop_toBottomOf="@id/ll_notice_detail_detail2"
+        android:orientation="horizontal"
+        tools:listitem="" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

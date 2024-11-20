@@ -14,17 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
+        android:gravity="end"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:backgroundTint="@color/black"
-            app:srcCompat="@drawable/btn_back"
-            android:scaleType="fitCenter"
-            android:layout_marginEnd="160dp" />
 
         <ImageButton
             android:id="@+id/btn_search"
@@ -33,15 +25,16 @@
             android:backgroundTint="@color/black"
             app:srcCompat="@drawable/btn_search"
             android:scaleType="fitCenter"
-            android:layout_margin="15dp" />
+            android:layout_marginTop="15dp" />
 
         <ImageButton
             android:id="@+id/btn_menu"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="53dp"
             android:backgroundTint="@color/black"
             app:tint="@color/white"
             app:srcCompat="@drawable/btn_menu"
+            android:layout_margin="13dp"
             android:scaleType="fitCenter" />
     </LinearLayout>
 
