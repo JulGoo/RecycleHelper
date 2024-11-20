@@ -54,6 +54,9 @@ dependencies {
 
     // google ml kit
     implementation 'com.google.mlkit:object-detection:17.0.2'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

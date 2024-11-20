@@ -48,6 +48,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/resultImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:scaleType="fitCenter"
+        android:background="#80000000"
+        android:contentDescription="Result Image" />
+
     <kr.akotis.recyclehelper.myclass.OverlayView
         android:id="@+id/overlayView"
         android:layout_width="match_parent"
