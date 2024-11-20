@@ -1,5 +1,6 @@
 package kr.akotis.recyclehelper.notice;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,15 @@ public class NoticeImgAdapter extends RecyclerView.Adapter<NoticeImgAdapter.Imag
                         .placeholder(R.drawable.placeholder) // 로딩 중일 때 보여줄 이미지
                         .error(R.drawable.error) // 에러 시 보여줄 이미지
                         .into(holder.ivImage);
+
+                // 클릭 이벤트 설정
+                holder.ivImage.setOnClickListener(v -> {
+                    // FullScreenImageActivity 호출
+                    Intent intent = new Intent(holder.itemView.getContext(), FullScreenImgNoticeActivity.class);
+                    intent.putExtra("imageUrl", uri.toString());
+                    holder.itemView.getContext().startActivity(intent);
+                });
+
             }).addOnFailureListener(e -> {
                 Log.e("Glide Error", "Failed to load image: " + e.getMessage());
             });
@@ -59,6 +69,14 @@ public class NoticeImgAdapter extends RecyclerView.Adapter<NoticeImgAdapter.Imag
                     .placeholder(R.drawable.placeholder)
                     .error(R.drawable.error)
                     .into(holder.ivImage);
+
+            // 클릭 이벤트 설정
+            holder.ivImage.setOnClickListener(v -> {
+                // FullScreenImageActivity 호출
+                Intent intent = new Intent(holder.itemView.getContext(), FullScreenImgNoticeActivity.class);
+                intent.putExtra("imageUrl", imgUrl);
+                holder.itemView.getContext().startActivity(intent);
+            });
         }
     }
 
