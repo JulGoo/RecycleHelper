@@ -3,44 +3,28 @@ package kr.akotis.recyclehelper.notice;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 public class Notice implements Parcelable {
     private String title;
     private String content;
     private String date;
-    private String imgUrl;
+    private String imgUrls;
 
-    public Notice() {}
+    // 기본 생성자
+    public Notice() {
+    }
 
-    public Notice(String title, String content, String date, String imgUrl){
+    public Notice(String title, String content, String date, String imgUrls) {
         this.title = title;
         this.content = content;
         this.date = date;
-        this.imgUrl = imgUrl;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
+        this.imgUrls = imgUrls;
     }
 
     protected Notice(Parcel in) {
         title = in.readString();
         content = in.readString();
-        imgUrl = in.readString();
         date = in.readString();
+        imgUrls = in.readString();
     }
 
     public static final Creator<Notice> CREATOR = new Creator<Notice>() {
@@ -55,16 +39,32 @@ public class Notice implements Parcelable {
         }
     };
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getImgUrls() {
+        return imgUrls;
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeString(content);
-        dest.writeString(imgUrl);
         dest.writeString(date);
+        dest.writeString(imgUrls);
     }
 }

@@ -1,8 +1,10 @@
 package kr.akotis.recyclehelper.notice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -10,17 +12,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
 
 import kr.akotis.recyclehelper.R;
 
 public class NoticeDetailActivity extends AppCompatActivity {
 
-    TextView tvTitle = findViewById(R.id.tv_notice_content_title);
-    TextView tvContent = findViewById(R.id.tv_notice_content_content);
-    //ImageView ivImage = findViewById(R.id.iv_notice_image);
-    TextView tvDate = findViewById(R.id.tv_notice_content_date);
-
-    Notice notice = getIntent().getParcelableExtra("notice");
+    private TextView tvTitle, tvDate, tvContent;
+    private RecyclerView recyclerImages;
+    private NoticeImgAdapter imgAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +31,34 @@ public class NoticeDetailActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_notice_detail);
 
+        // View 초기화
+        tvTitle = findViewById(R.id.tv_title);
+        tvDate = findViewById(R.id.tv_date);
+        tvContent = findViewById(R.id.tv_content);
+        recyclerImages = findViewById(R.id.recycler_images);
+
+        Intent intent = getIntent();
+        Notice notice = intent.getParcelableExtra("notice");
+
+
         if (notice != null) {
             tvTitle.setText(notice.getTitle());
             tvContent.setText(notice.getContent());
             tvDate.setText(notice.getDate());
 
-//            if (notice.getImgUrl() != null && !notice.getImgUrl().isEmpty()) {
-//                ivImage.setVisibility(View.VISIBLE);
-//                Glide.with(this).load(notice.getImgUrl()).into(ivImage); // 이미지 로드
-//            }
-            Log.d("NoticeDetailActivity", "Notice: " + notice.getTitle());
-            Notice notice = (Notice)getIntent().getParcelableExtra("notice");
+            // 이미지 URL 리스트 처리
+            String[] imgUrls = notice.getImgUrls().split(",");
+            imgAdapter = new NoticeImgAdapter(List.of(imgUrls));
+            recyclerImages.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            recyclerImages.setAdapter(imgAdapter);
+
+            Log.d("NoticeDetailActivity", "===================================Notice: " + notice.getTitle());
         }else {
-            Log.e("NoticeDetailActivity", "Notice data is null===================================");
+            Log.e("NoticeDetailActivity", "===================================Notice data is null");
         }
+
+//        ImageButton btnMenu = findViewById(R.id.btn_menu);
+//        btnMenu.setOnClickListener(v -> finish());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.recycler_view), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

@@ -1,12 +1,9 @@
 package kr.akotis.recyclehelper.notice;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -14,23 +11,18 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import kr.akotis.recyclehelper.R;
 
 public class NoticeActivity extends AppCompatActivity {
 
     private RecyclerView rv;
-    private NoticeAdapter adapter;
-    private List<Notice> noticeList;
-    private DatabaseReference databaseReference;
+    private FirebaseRecyclerAdapter<Notice, NoticeAdapter.NoticeViewHolder> adapter;
+    private DatabaseReference noticeRef;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,46 +31,52 @@ public class NoticeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_notice);
 
-        // 리사이클러뷰 설정
         rv = findViewById(R.id.recycler_notice);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        noticeList = new ArrayList<>();
-        adapter = new NoticeAdapter(noticeList, position -> {
-            Notice clickedNotice = noticeList.get(position);
-            // 상세 페이지로 이동
-            Intent intent = new Intent(NoticeActivity.this, NoticeDetailActivity.class);
-            intent.putExtra("notice", clickedNotice);
-            startActivity(intent);
-        });
+
+        // Firebase 데이터 초기화
+        noticeRef = FirebaseDatabase.getInstance().getReference().child("Notice");
+        FirebaseRecyclerOptions<Notice> options = new FirebaseRecyclerOptions.Builder<Notice>()
+                .setQuery(noticeRef, Notice.class)
+                .build();
+
+        adapter = new NoticeAdapter(options);
         rv.setAdapter(adapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Notice");
-        fetchNotice();
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.recycler_notice), (v, insets) -> {
+        // 시스템 바 패딩 처리
+        ViewCompat.setOnApplyWindowInsetsListener(rv, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
 
-    private void fetchNotice() {
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                noticeList.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Notice notice = dataSnapshot.getValue(Notice.class);
-                    noticeList.add(notice);
-                }
-                adapter.notifyDataSetChanged();
-            }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged(); // 데이터를 강제로 다시 표시
+        }
+    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(NoticeActivity.this, "데이터 가져오기 실패: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (adapter != null) {
+            adapter.startListening();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (adapter != null) {
+            adapter.stopListening();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
