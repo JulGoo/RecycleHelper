@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.media.Image;
@@ -14,6 +15,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -35,6 +37,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.mlkit.vision.common.InputImage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +67,7 @@ public class ImgSearchActivity extends AppCompatActivity {
     private static final String[] REQUIRED_PERMISSIONS = new String[]{android.Manifest.permission.CAMERA};
 
     private TextView resultText;
+    private ImageView resultImageView;
     private PreviewView previewView;
     private ImageButton captureButton;
     private ImageCapture imageCapture;
@@ -80,6 +84,7 @@ public class ImgSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_img_search);
 
         resultText = findViewById(R.id.resultTextView);
+        resultImageView = findViewById(R.id.resultImageView);
         previewView = findViewById(R.id.previewView);
         captureButton = findViewById(R.id.captureButton);
         cameraExecutor = Executors.newSingleThreadExecutor();
@@ -174,6 +179,7 @@ public class ImgSearchActivity extends AppCompatActivity {
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
 
                 // Flask 서버로 이미지 전송
+                //Bitmap copybitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
                 sendToFlaskServer(byteArray);
 
 
@@ -197,7 +203,6 @@ public class ImgSearchActivity extends AppCompatActivity {
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            image.close();
             return bitmap;
         }
         return null;
@@ -228,13 +233,28 @@ public class ImgSearchActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
-                    JSONArray jsonArray = null;
+                    String name = "";
+                    Bitmap resultmap = null;
                     try {
-                        jsonArray = new JSONArray(responseData);
+                        JSONObject jsonObject = new JSONObject(responseData);
+                        name = jsonObject.getString("name");
+                        String imgresult = jsonObject.getString("img");
+                        Bitmap basicmap = base64ToBitmap(imgresult);
+                        resultmap = rotateBitmap(basicmap, 90);
                     } catch (JSONException e) {
-                        throw new RuntimeException(e);
+                        e.printStackTrace();
                     }
+
+                    String finalName = name;
+                    Bitmap finalResultmap = resultmap;
+                    runOnUiThread(() -> {
+                        resultText.setText(finalName);
+                        resultImageView.setImageBitmap(finalResultmap);
+                    });
+
                     Log.d("ServerResponse", "서버 응답: " + responseData);
+                    //Bitmap result = processImageWithBoundingBox(bitmap, responseData);
+                    //resultImageView.setImageBitmap(result);
                 } else {
                     Log.e("ServerRequest", "서버 오류: " + response.code());
                 }
@@ -242,10 +262,71 @@ public class ImgSearchActivity extends AppCompatActivity {
         });
     }
 
+    public Bitmap base64ToBitmap(String base64String) {
+        byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
 
 
+    public Bitmap processImageWithBoundingBox(Bitmap resultBitmap, String jsonResponse) {
+        try {
+            // JSON 파싱
+            JSONObject jsonObject = new JSONObject(jsonResponse);
+            JSONArray boundingBoxArray = jsonObject.getJSONArray("bounding_box");
+            String name = jsonObject.getString("name");
+            double score = jsonObject.getDouble("score");
 
+            // 바운딩 박스 좌표
+            float[] boundingBoxCoordinates = new float[8]; // x1, y1, x2, y2, x3, y3, x4, y4
+            for (int i = 0; i < 4; i++) {
+                JSONObject point = boundingBoxArray.getJSONObject(i);
+                boundingBoxCoordinates[i * 2] = (float) point.getDouble("x"); // x
+                boundingBoxCoordinates[i * 2 + 1] = (float) point.getDouble("y"); // y
+            }
 
+            // 이미지를 90도 회전
+            resultBitmap = rotateBitmap(resultBitmap, 90);
+
+            // Canvas를 사용하여 이미지에 바운딩 박스 그리기
+            Canvas canvas = new Canvas(resultBitmap);
+            Paint paint = new Paint();
+            paint.setColor(Color.RED); // 빨간색
+            paint.setStrokeWidth(5);
+            paint.setStyle(Paint.Style.STROKE);  // 선 스타일 설정
+
+            // 이미지 크기 비율을 맞춰서 좌표 조정
+            int width = resultBitmap.getWidth();
+            int height = resultBitmap.getHeight();
+
+            float left = boundingBoxCoordinates[0] * width;
+            float top = boundingBoxCoordinates[1] * height;
+            float right = boundingBoxCoordinates[2] * width;
+            float bottom = boundingBoxCoordinates[3] * height;
+
+            // 각 점을 연결하여 빨간색 선으로 네모 그리기
+            canvas.drawLine(left, top, right, top, paint);   // top side
+            canvas.drawLine(right, top, right, bottom, paint); // right side
+            canvas.drawLine(right, bottom, left, bottom, paint); // bottom side
+            canvas.drawLine(left, bottom, left, top, paint);   // left side
+
+            // 콘솔에 객체 이름 출력
+            //Log.d("ObjectDetection", "Detected object: " + name + " with score: " + score);
+
+            // 화면에 객체 이름 출력
+            runOnUiThread(() -> resultText.setText(name));
+
+        } catch (Exception e) {
+            Log.e("ImageProcessor", "Error processing image", e);
+        }
+
+        return resultBitmap;  // 그려진 Bitmap을 반환
+    }
+
+    private Bitmap rotateBitmap(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
 
 
 
