@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,8 +68,7 @@ public class ImgSearchActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PERMISSIONS = 10;
     private static final String[] REQUIRED_PERMISSIONS = new String[]{android.Manifest.permission.CAMERA};
 
-    private TextView resultText;
-    private ImageView resultImageView;
+    private ImageView resultImage;
     private PreviewView previewView;
     private ImageButton captureButton;
     private ImageCapture imageCapture;
@@ -77,24 +78,40 @@ public class ImgSearchActivity extends AppCompatActivity {
 
 
 
+    private View dimBackground;
+    private ProgressBar loadingSpinner;
+    private LinearLayout resultLayout;
+    private TextView resultName;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_img_search);
 
-        resultText = findViewById(R.id.resultTextView);
-        resultImageView = findViewById(R.id.resultImageView);
+
         previewView = findViewById(R.id.previewView);
         captureButton = findViewById(R.id.captureButton);
+        dimBackground = findViewById(R.id.dimBackground);
+        loadingSpinner = findViewById(R.id.loadingSpinner);
+        resultLayout = findViewById(R.id.resultLayout);
+        resultImage = findViewById(R.id.resultImage);
+        resultName = findViewById(R.id.resultName);
+
+
         cameraExecutor = Executors.newSingleThreadExecutor();
         mediaPlayer = MediaPlayer.create(this, R.raw.camera_click);
         captureButton.setOnClickListener(view -> {
             animateButton(captureButton);
             vibrateOnClick();
             playClickSound();
+            showLoadingScreen();
             takePhoto();
+
         });
+        resultLayout.setOnClickListener(v -> hideResultScreen());
 
         // 카메라 권한 확인 및 요청
         if (allPermissionsGranted()) {
@@ -247,9 +264,19 @@ public class ImgSearchActivity extends AppCompatActivity {
 
                     String finalName = name;
                     Bitmap finalResultmap = resultmap;
+                    //runOnUiThread(() -> {
+                        //resultText.setText(finalName);
+                        //resultImage.setImageBitmap(finalResultmap);
+                    //});
+
+
                     runOnUiThread(() -> {
-                        resultText.setText(finalName);
-                        resultImageView.setImageBitmap(finalResultmap);
+                        try {
+                            // showResultScreen 메서드 실행 (UI 관련 작업)
+                            showResultScreen(finalResultmap, finalName);
+                        } catch (Exception e) {
+                            Log.e("ImgSearchActivity", "Error updating UI", e);
+                        }
                     });
 
                     Log.d("ServerResponse", "서버 응답: " + responseData);
@@ -257,6 +284,9 @@ public class ImgSearchActivity extends AppCompatActivity {
                     //resultImageView.setImageBitmap(result);
                 } else {
                     Log.e("ServerRequest", "서버 오류: " + response.code());
+                    runOnUiThread(() -> {
+                        hideResultScreen();
+                    });
                 }
             }
         });
@@ -313,7 +343,7 @@ public class ImgSearchActivity extends AppCompatActivity {
             //Log.d("ObjectDetection", "Detected object: " + name + " with score: " + score);
 
             // 화면에 객체 이름 출력
-            runOnUiThread(() -> resultText.setText(name));
+            //runOnUiThread(() -> resultText.setText(name));
 
         } catch (Exception e) {
             Log.e("ImageProcessor", "Error processing image", e);
@@ -329,6 +359,25 @@ public class ImgSearchActivity extends AppCompatActivity {
     }
 
 
+
+
+
+    private void showLoadingScreen() {
+        dimBackground.setVisibility(View.VISIBLE);
+        loadingSpinner.setVisibility(View.VISIBLE);
+        resultLayout.setVisibility(View.GONE);
+    }
+    private void hideResultScreen() {
+        dimBackground.setVisibility(View.GONE);
+        loadingSpinner.setVisibility(View.GONE);
+        resultLayout.setVisibility(View.GONE);
+    }
+    private void showResultScreen(Bitmap img, String name) {
+        loadingSpinner.setVisibility(View.GONE);
+        resultLayout.setVisibility(View.VISIBLE);
+        resultImage.setImageBitmap(img);
+        resultName.setText(name);
+    }
 
 
 
