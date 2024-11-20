@@ -14,27 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
+        android:gravity="end"
         app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="100sp"
-            android:layout_height="60sp"
-            android:backgroundTint="@color/black"
-            app:srcCompat="@drawable/btn_back"
-            android:scaleType="fitCenter"
-            android:layout_marginEnd="160sp" />
-
-        <ImageButton
-            android:id="@+id/btn_search"
-            android:layout_width="50sp"
-            android:layout_height="50sp"
-            android:backgroundTint="@color/black"
-            app:srcCompat="@drawable/btn_search"
-            android:scaleType="fitCenter"
-            android:layout_margin="15sp" />
-
         <ImageButton
             android:id="@+id/btn_menu"
             android:layout_width="50sp"
