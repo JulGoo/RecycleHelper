@@ -67,6 +67,8 @@ dependencies {
 
     // Firebase Core 의존성 추가 (앱에서 Firebase 사용을 위해 필요)
     implementation 'com.google.firebase:firebase-core:21.1.0'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 }
 
 apply plugin: 'com.google.gms.google-services'
