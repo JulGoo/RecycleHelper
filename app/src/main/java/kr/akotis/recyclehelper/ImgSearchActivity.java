@@ -5,11 +5,7 @@ import android.animation.ObjectAnimator;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -39,9 +35,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.mlkit.vision.common.InputImage;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,28 +50,22 @@ import okhttp3.RequestBody;
 
 import okhttp3.MediaType;
 import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-import java.io.IOException;
 
 
 public class ImgSearchActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PERMISSIONS = 10;
     private static final String[] REQUIRED_PERMISSIONS = new String[]{android.Manifest.permission.CAMERA};
 
+    // UI
     private ImageView resultImage;
     private PreviewView previewView;
     private ImageButton captureButton;
     private ImageCapture imageCapture;
     private ExecutorService cameraExecutor;
     private MediaPlayer mediaPlayer;
-
-
-
-
     private View dimBackground;
     private ProgressBar loadingSpinner;
     private LinearLayout resultLayout;
@@ -92,25 +80,26 @@ public class ImgSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_img_search);
 
 
-        previewView = findViewById(R.id.previewView);
-        captureButton = findViewById(R.id.captureButton);
-        dimBackground = findViewById(R.id.dimBackground);
-        loadingSpinner = findViewById(R.id.loadingSpinner);
-        resultLayout = findViewById(R.id.resultLayout);
-        resultImage = findViewById(R.id.resultImage);
-        resultName = findViewById(R.id.resultName);
+        previewView = findViewById(R.id.previewView);       // 카메라 프리뷰
+        captureButton = findViewById(R.id.captureButton);   // 촬영 버튼
+        dimBackground = findViewById(R.id.dimBackground);   // 버튼 클릭시 검정화면
+        loadingSpinner = findViewById(R.id.loadingSpinner); // 버튼 클릭시 로딩
+        resultLayout = findViewById(R.id.resultLayout);     // 결과 화면 레이아웃
+        resultImage = findViewById(R.id.resultImage);       // 결과 이미지
+        resultName = findViewById(R.id.resultName);         // 결과 이름
 
 
         cameraExecutor = Executors.newSingleThreadExecutor();
         mediaPlayer = MediaPlayer.create(this, R.raw.camera_click);
         captureButton.setOnClickListener(view -> {
-            animateButton(captureButton);
-            vibrateOnClick();
-            playClickSound();
-            showLoadingScreen();
-            takePhoto();
-
+            animateButton(captureButton);   // 버튼 커졌다 작게
+            vibrateOnClick();               // 진동
+            playClickSound();               // 사운드
+            showLoadingScreen();            // 로딩 화면 띄우기
+            takePhoto();                    // 사진 촬영 및 API 요청
         });
+        
+        // 결과 화면 클릭 시 사라지게
         resultLayout.setOnClickListener(v -> hideResultScreen());
 
         // 카메라 권한 확인 및 요청
@@ -119,7 +108,6 @@ public class ImgSearchActivity extends AppCompatActivity {
         } else {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
-
 
         // ExecutorService 초기화
         cameraExecutor = Executors.newSingleThreadExecutor();
@@ -135,7 +123,7 @@ public class ImgSearchActivity extends AppCompatActivity {
             if (allPermissionsGranted()) {
                 startCamera();
             } else {
-                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "카메라 권한이 없습니다.", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
@@ -190,32 +178,31 @@ public class ImgSearchActivity extends AppCompatActivity {
                 super.onCaptureSuccess(image);
                 Log.d("ObjectDetection", "이미지 캡처 성공");
 
+                // 캡처 이미지를 API 요청을 위한 ByteArray로 변환
                 Bitmap bitmap = imageProxyToBitmap(image);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
 
-                // Flask 서버로 이미지 전송
-                //Bitmap copybitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+                // API 서버 요청
                 sendToFlaskServer(byteArray);
-
-
                 image.close();
             }
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
-                runOnUiThread(() -> Toast.makeText(ImgSearchActivity.this, "이미지 분석 실패: ", Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> Toast.makeText(ImgSearchActivity.this, "사진 촬영에 실패하였습니다.", Toast.LENGTH_SHORT).show());
             }
         });
     }
 
 
+    // ImageProxy 를 Bitmap 형식으로 변환
     private Bitmap imageProxyToBitmap(ImageProxy imageProxy) {
         @SuppressWarnings("UnsafeOptInUsageError")
         Image image = imageProxy.getImage();
         if (image != null) {
-            // YUV_420_888 형식을 JPEG로 변환 (필요시 추가적인 코드 필요)
+            // YUV_420_888 형식을 JPEG로 변환
             ByteBuffer buffer = image.getPlanes()[0].getBuffer();
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
@@ -225,15 +212,12 @@ public class ImgSearchActivity extends AppCompatActivity {
         return null;
     }
 
-
+    // API 서버에 요청
     private void sendToFlaskServer(byte[] byteArray) {
-        // 서버 URL 설정
         String serverUrl = "https://mojuk.kr/vision";
 
-        // 요청을 만들기 위한 OkHttpClient 사용
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(byteArray, MediaType.parse("image/jpeg"));
-
         Request request = new Request.Builder()
                 .url(serverUrl)
                 .post(requestBody)
@@ -243,48 +227,46 @@ public class ImgSearchActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e("ServerRequest", "서버 요청 실패: ", e);
+                Log.e("ServerRequest", "서버 요청 실패(연결X)", e);
+                runOnUiThread(() -> Toast.makeText(ImgSearchActivity.this, "인터넷 연결에 실패하였습니다.", Toast.LENGTH_SHORT).show());
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    // 결과 파싱
                     String responseData = response.body().string();
                     String name = "";
                     Bitmap resultmap = null;
                     try {
                         JSONObject jsonObject = new JSONObject(responseData);
                         name = jsonObject.getString("name");
-                        String imgresult = jsonObject.getString("img");
-                        Bitmap basicmap = base64ToBitmap(imgresult);
+
+                        Bitmap basicmap = base64ToBitmap(jsonObject.getString("img"));
                         resultmap = rotateBitmap(basicmap, 90);
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.e("ServerRequest", "데이터 파싱 에러 발생", e);
+                        runOnUiThread(() -> Toast.makeText(ImgSearchActivity.this, "서버에 일시적인 문제가 발생하였습니다.", Toast.LENGTH_SHORT).show());
                     }
 
+                    // 결과 이미지, 이름 설정
                     String finalName = name;
                     Bitmap finalResultmap = resultmap;
-                    //runOnUiThread(() -> {
-                        //resultText.setText(finalName);
-                        //resultImage.setImageBitmap(finalResultmap);
-                    //});
-
-
                     runOnUiThread(() -> {
                         try {
-                            // showResultScreen 메서드 실행 (UI 관련 작업)
+                            // 결과 표출하기
                             showResultScreen(finalResultmap, finalName);
                         } catch (Exception e) {
-                            Log.e("ImgSearchActivity", "Error updating UI", e);
+                            Log.e("ImgSearchActivity", "결과 UI 표출 실패", e);
+                            runOnUiThread(() -> Toast.makeText(ImgSearchActivity.this, "UI 업데이트에 실패하였습니다.", Toast.LENGTH_SHORT).show());
                         }
                     });
 
                     Log.d("ServerResponse", "서버 응답: " + responseData);
-                    //Bitmap result = processImageWithBoundingBox(bitmap, responseData);
-                    //resultImageView.setImageBitmap(result);
                 } else {
                     Log.e("ServerRequest", "서버 오류: " + response.code());
                     runOnUiThread(() -> {
+                        Toast.makeText(ImgSearchActivity.this, "다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                         hideResultScreen();
                     });
                 }
@@ -292,66 +274,13 @@ public class ImgSearchActivity extends AppCompatActivity {
         });
     }
 
+    // API 서버에서 가져온 Base64 -> Bitmap 변환
     public Bitmap base64ToBitmap(String base64String) {
         byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 
-
-    public Bitmap processImageWithBoundingBox(Bitmap resultBitmap, String jsonResponse) {
-        try {
-            // JSON 파싱
-            JSONObject jsonObject = new JSONObject(jsonResponse);
-            JSONArray boundingBoxArray = jsonObject.getJSONArray("bounding_box");
-            String name = jsonObject.getString("name");
-            double score = jsonObject.getDouble("score");
-
-            // 바운딩 박스 좌표
-            float[] boundingBoxCoordinates = new float[8]; // x1, y1, x2, y2, x3, y3, x4, y4
-            for (int i = 0; i < 4; i++) {
-                JSONObject point = boundingBoxArray.getJSONObject(i);
-                boundingBoxCoordinates[i * 2] = (float) point.getDouble("x"); // x
-                boundingBoxCoordinates[i * 2 + 1] = (float) point.getDouble("y"); // y
-            }
-
-            // 이미지를 90도 회전
-            resultBitmap = rotateBitmap(resultBitmap, 90);
-
-            // Canvas를 사용하여 이미지에 바운딩 박스 그리기
-            Canvas canvas = new Canvas(resultBitmap);
-            Paint paint = new Paint();
-            paint.setColor(Color.RED); // 빨간색
-            paint.setStrokeWidth(5);
-            paint.setStyle(Paint.Style.STROKE);  // 선 스타일 설정
-
-            // 이미지 크기 비율을 맞춰서 좌표 조정
-            int width = resultBitmap.getWidth();
-            int height = resultBitmap.getHeight();
-
-            float left = boundingBoxCoordinates[0] * width;
-            float top = boundingBoxCoordinates[1] * height;
-            float right = boundingBoxCoordinates[2] * width;
-            float bottom = boundingBoxCoordinates[3] * height;
-
-            // 각 점을 연결하여 빨간색 선으로 네모 그리기
-            canvas.drawLine(left, top, right, top, paint);   // top side
-            canvas.drawLine(right, top, right, bottom, paint); // right side
-            canvas.drawLine(right, bottom, left, bottom, paint); // bottom side
-            canvas.drawLine(left, bottom, left, top, paint);   // left side
-
-            // 콘솔에 객체 이름 출력
-            //Log.d("ObjectDetection", "Detected object: " + name + " with score: " + score);
-
-            // 화면에 객체 이름 출력
-            //runOnUiThread(() -> resultText.setText(name));
-
-        } catch (Exception e) {
-            Log.e("ImageProcessor", "Error processing image", e);
-        }
-
-        return resultBitmap;  // 그려진 Bitmap을 반환
-    }
-
+    // AI 측정을 위해 기울어진 Bitmap 이미지 회전시키기
     private Bitmap rotateBitmap(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
@@ -362,6 +291,10 @@ public class ImgSearchActivity extends AppCompatActivity {
 
 
 
+
+
+
+    // 사진 처리 UI 동작
     private void showLoadingScreen() {
         dimBackground.setVisibility(View.VISIBLE);
         loadingSpinner.setVisibility(View.VISIBLE);
@@ -389,16 +322,15 @@ public class ImgSearchActivity extends AppCompatActivity {
 
 
 
-
-
+    // 촬영 버튼 효과
     private void animateButton(View button) {
         // 버튼이 커지는 애니메이션
-        ObjectAnimator scaleUpX = ObjectAnimator.ofFloat(button, "scaleX", 1.0f, 1.1f);
-        ObjectAnimator scaleUpY = ObjectAnimator.ofFloat(button, "scaleY", 1.0f, 1.1f);
+        ObjectAnimator scaleUpX = ObjectAnimator.ofFloat(button, "scaleX", 1.0f, 1.2f);
+        ObjectAnimator scaleUpY = ObjectAnimator.ofFloat(button, "scaleY", 1.0f, 1.2f);
 
         // 버튼이 다시 원래 크기로 돌아가는 애니메이션
-        ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(button, "scaleX", 1.1f, 1.0f);
-        ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(button, "scaleY", 1.1f, 1.0f);
+        ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(button, "scaleX", 1.2f, 1.0f);
+        ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(button, "scaleY", 1.2f, 1.0f);
 
         // 애니메이션 순서 설정
         AnimatorSet animatorSet = new AnimatorSet();
@@ -418,6 +350,8 @@ public class ImgSearchActivity extends AppCompatActivity {
             mediaPlayer.start();
         }
     }
+
+
 
 
     @Override
