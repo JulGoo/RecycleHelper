@@ -263,8 +263,17 @@ public class ImgSearchActivity extends AppCompatActivity {
                     });
 
                     Log.d("ServerResponse", "서버 응답: " + responseData);
+                } else if (response.code() == 999) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(ImgSearchActivity.this, "탐지된 객체가 없습니다.", Toast.LENGTH_SHORT).show();
+                        hideResultScreen();
+                    });
+                } else if (response.code() == 998) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(ImgSearchActivity.this, "API 연동에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                        hideResultScreen();
+                    });
                 } else {
-                    Log.e("ServerRequest", "서버 오류: " + response.code());
                     runOnUiThread(() -> {
                         Toast.makeText(ImgSearchActivity.this, "다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                         hideResultScreen();
@@ -296,6 +305,7 @@ public class ImgSearchActivity extends AppCompatActivity {
 
     // 사진 처리 UI 동작
     private void showLoadingScreen() {
+        hideResultScreen();
         dimBackground.setVisibility(View.VISIBLE);
         loadingSpinner.setVisibility(View.VISIBLE);
         resultLayout.setVisibility(View.GONE);
