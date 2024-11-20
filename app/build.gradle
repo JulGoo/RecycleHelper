@@ -39,10 +39,6 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 
-    implementation platform('com.google.firebase:firebase-bom:33.6.0')
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation("com.google.firebase:firebase-database")
-
     // androix 및 카메라 권한
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -54,6 +50,23 @@ dependencies {
 
     // google ml kit
     implementation 'com.google.mlkit:object-detection:17.0.2'
+
+    // Glide 이미지 로드
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+
+    // 파이어베이스
+    implementation platform('com.google.firebase:firebase-bom:33.6.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation("com.google.firebase:firebase-database")
+
+    // FirebaseUI
+    implementation 'com.firebaseui:firebase-ui-database:8.0.0'
+
+    // Firebase Storage 라이브러리 추가
+    implementation 'com.google.firebase:firebase-storage:20.2.0'
+
+    // Firebase Core 의존성 추가 (앱에서 Firebase 사용을 위해 필요)
+    implementation 'com.google.firebase:firebase-core:21.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
