@@ -36,6 +36,7 @@ public class NoticeAdapter extends FirebaseRecyclerAdapter<Notice, NoticeAdapter
         });
     }
 
+
     @NonNull
     @Override
     public NoticeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
