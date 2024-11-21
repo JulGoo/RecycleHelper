@@ -9,8 +9,7 @@ public class Comment implements Parcelable {
     private int pwd;
     private int report;
 
-    public Comment() {
-    }
+    public Comment() {}
 
     public Comment(String content, long date, int pwd, int report) {
         this.content = content;
@@ -27,11 +26,11 @@ public class Comment implements Parcelable {
         this.content = content;
     }
 
-    public Long getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Long date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -51,24 +50,12 @@ public class Comment implements Parcelable {
         this.report = report;
     }
 
+    // Parcelable 구현
     protected Comment(Parcel in) {
         content = in.readString();
         date = in.readLong();
         pwd = in.readInt();
         report = in.readInt();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(content);
-        dest.writeLong(date);
-        dest.writeInt(pwd);
-        dest.writeInt(report);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     public static final Creator<Comment> CREATOR = new Creator<Comment>() {
@@ -82,4 +69,17 @@ public class Comment implements Parcelable {
             return new Comment[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(content);
+        dest.writeLong(date);
+        dest.writeInt(pwd);
+        dest.writeInt(report);
+    }
 }

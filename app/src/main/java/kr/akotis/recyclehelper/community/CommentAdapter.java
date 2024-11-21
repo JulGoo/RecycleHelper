@@ -18,7 +18,7 @@ import java.util.Locale;
 import kr.akotis.recyclehelper.R;
 
 public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, CommentAdapter.CommentViewHolder> {
-    public CommentAdapter(@NonNull FirebaseRecyclerOptions<Comment> options){
+    public CommentAdapter(@NonNull FirebaseRecyclerOptions<Comment> options) {
         super(options);
     }
 
@@ -35,7 +35,8 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, CommentAdap
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_comment, parent, false);
         return new CommentViewHolder(view);
     }
 

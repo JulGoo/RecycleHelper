@@ -6,17 +6,19 @@ import android.os.Parcelable;
 import java.util.Map;
 
 public class Community implements Parcelable {
+    private String id;
     private String title;
     private String content;
     private Long date;
     private String imgUrls;
     private int pwd;
     private int report;
-    private Map<String, Comment> comments; // 댓글 데이터를 담을 Map
+    private Map<String, Comment> comments;
 
     public Community() {}
 
-    public Community(String title, String content, Long date, String imgUrls, int pwd, int report, Map<String, Comment> comments) {
+    public Community(String id, String title, String content, Long date, String imgUrls, int pwd, int report, Map<String, Comment> comments) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;
@@ -24,6 +26,14 @@ public class Community implements Parcelable {
         this.pwd = pwd;
         this.report = report;
         this.comments = comments;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -83,6 +93,7 @@ public class Community implements Parcelable {
     }
 
     protected Community(Parcel in){
+        id = in.readString();
         title = in.readString();
         content = in.readString();
         date = in.readLong();
@@ -111,6 +122,7 @@ public class Community implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(content);
         dest.writeLong(date);
