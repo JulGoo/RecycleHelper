@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recycler_view"
@@ -9,60 +10,91 @@
     tools:context=".MainActivity">
 
     <ImageButton
-        android:id="@+id/btn_img_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:id="@+id/black"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintHeight_percent="0.04"
         android:backgroundTint="@color/black"
-        android:padding="0sp"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/btn_img_search" />
+        app:srcCompat="@color/black"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true" />
+
+    <ImageButton
+        android:id="@+id/btn_img_search"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintHeight_percent="0.25"
+        android:backgroundTint="@color/black"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/black"
+        app:srcCompat="@drawable/btn_img_search"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true" />
 
     <ImageButton
         android:id="@+id/btn_voice_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:backgroundTint="@color/black"
-        android:padding="0sp"
-        app:layout_constraintStart_toStartOf="@+id/btn_img_search"
+        android:padding="10dp"
+        app:layout_constraintHeight_percent="0.33"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_img_search"
-        app:srcCompat="@drawable/btn_voice_search" />
+        app:layout_constraintWidth_percent="0.5"
+        app:srcCompat="@drawable/btn_voice_search"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true" />
 
     <ImageButton
         android:id="@+id/btn_recycling_guide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_percent="0.33"
         android:backgroundTint="@color/black"
-        android:padding="0sp"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="@+id/btn_img_search"
         app:layout_constraintTop_toBottomOf="@+id/btn_img_search"
-        app:srcCompat="@drawable/btn_recycling_guide" />
+        app:srcCompat="@drawable/btn_recycling_guide"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true" />
 
     <ImageButton
         android:id="@+id/btn_notice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_percent="0.33"
         android:backgroundTint="@color/black"
-        android:padding="0sp"
+        android:padding="10dp"
         app:layout_constraintStart_toStartOf="@+id/btn_img_search"
         app:layout_constraintTop_toBottomOf="@+id/btn_voice_search"
-        app:srcCompat="@drawable/btn_notice" />
+        app:srcCompat="@drawable/btn_notice"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true" />
 
     <ImageButton
         android:id="@+id/btn_community"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_percent="0.33"
         android:backgroundTint="@color/black"
-        android:padding="0sp"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="@+id/btn_img_search"
         app:layout_constraintTop_toBottomOf="@+id/btn_recycling_guide"
-        app:srcCompat="@drawable/btn_community" />
+        app:srcCompat="@drawable/btn_community"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

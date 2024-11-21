@@ -17,15 +17,6 @@
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/black"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:backgroundTint="@color/black"
-            app:srcCompat="@color/black"
-            android:scaleType="fitCenter"
-            android:layout_margin="15dp" />
-
         <TextView
             android:id="@+id/tv_notice"
             android:layout_width="wrap_content"
@@ -36,15 +27,6 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"/>
-
-        <ImageButton
-            android:id="@+id/btn_search"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:backgroundTint="@color/black"
-            app:srcCompat="@drawable/btn_search"
-            android:scaleType="fitCenter"
-            android:layout_margin="15dp" />
 
     </LinearLayout>
 
