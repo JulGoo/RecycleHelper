@@ -1,25 +1,19 @@
-package kr.akotis.recyclehelper.notice;
+package kr.akotis.recyclehelper;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 
-import kr.akotis.recyclehelper.R;
-
-public class FullScreenImgNoticeActivity extends AppCompatActivity {
+public class FullScreenImgActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_full_screen_img_notice);
+        setContentView(R.layout.activity_full_screen_img);
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView fullScreenImageView = findViewById(R.id.fullScreenImageView);
 

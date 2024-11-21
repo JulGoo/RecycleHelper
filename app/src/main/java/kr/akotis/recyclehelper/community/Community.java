@@ -3,23 +3,27 @@ package kr.akotis.recyclehelper.community;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Map;
+
 public class Community implements Parcelable {
     private String title;
     private String content;
-    private String date;
+    private Long date;
     private String imgUrls;
     private int pwd;
     private int report;
+    private Map<String, Comment> comments; // 댓글 데이터를 담을 Map
 
     public Community() {}
 
-    public Community(String title, String content, String date, String imgUrls, int pwd, int report) {
+    public Community(String title, String content, Long date, String imgUrls, int pwd, int report, Map<String, Comment> comments) {
         this.title = title;
         this.content = content;
         this.date = date;
         this.imgUrls = imgUrls;
         this.pwd = pwd;
         this.report = report;
+        this.comments = comments;
     }
 
     public String getTitle() {
@@ -38,11 +42,11 @@ public class Community implements Parcelable {
         this.content = content;
     }
 
-    public String getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
@@ -70,13 +74,22 @@ public class Community implements Parcelable {
         this.report = report;
     }
 
+    public Map<String, Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Map<String, Comment> comments) {
+        this.comments = comments;
+    }
+
     protected Community(Parcel in){
         title = in.readString();
         content = in.readString();
-        date = in.readString();
+        date = in.readLong();
         imgUrls = in.readString();
         pwd = in.readInt();
         report = in.readInt();
+        comments = in.readHashMap(Comment.class.getClassLoader());
     }
 
     public static final Creator<Community> CREATOR = new Creator<Community>() {
@@ -100,9 +113,10 @@ public class Community implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeString(content);
-        dest.writeString(date);
+        dest.writeLong(date);
         dest.writeString(imgUrls);
         dest.writeInt(pwd);
         dest.writeInt(report);
+        dest.writeMap(comments);
     }
 }
