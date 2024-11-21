@@ -8,31 +8,35 @@
     android:background="@color/black"
     tools:context=".VoiceSearchActivity">
 
+    <!-- TextView to show status -->
     <ImageView
         android:id="@+id/iv_voice_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="마이크 그림"
+        app:layout_constraintVertical_bias="0.444"
         app:srcCompat="@drawable/voice_search_icon" />
 
     <TextView
         android:id="@+id/tv_voice_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30sp"
+        android:layout_marginTop="76dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:text="검색할 물건을 말해주세요"
         android:textColor="@color/white"
         android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.432"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- TextView to show status -->
     <TextView
         android:id="@+id/statusTextView"
         android:layout_width="wrap_content"
@@ -41,6 +45,22 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="29dp"
         android:text="마이크를 눌러주세요."
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_voice_search" />
+
+    <TextView
+        android:id="@+id/voice_result"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_voice_search"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="66dp"
+        android:text=""
         android:textSize="16sp"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
