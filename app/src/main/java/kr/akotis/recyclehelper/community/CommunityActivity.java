@@ -1,5 +1,6 @@
 package kr.akotis.recyclehelper.community;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,6 +26,7 @@ public class CommunityActivity extends AppCompatActivity {
     private RecyclerView rv;
     private DatabaseReference communityRef;
     private FirebaseRecyclerAdapter<Community, CommunityAdapter.CommunityViewHolder> adapter;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,12 @@ public class CommunityActivity extends AppCompatActivity {
 
         adapter = new CommunityAdapter(options);
         rv.setAdapter(adapter);
+
+        fab = findViewById(R.id.fab_add);
+        fab.setOnClickListener(v -> {
+            // 커뮤니티 작성 화면으로 이동
+            startActivity(new Intent(CommunityActivity.this, CommunityWriteActivity.class));
+        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.recycler_view), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

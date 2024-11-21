@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="정말로 삭제하시겠습니까?"
+            android:text="정말 삭제하시겠습니까?"
             android:textSize="20sp"
             android:textColor="@color/black"
             android:gravity="center"
