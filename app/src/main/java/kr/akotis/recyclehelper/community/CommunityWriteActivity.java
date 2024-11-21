@@ -1,21 +1,25 @@
 package kr.akotis.recyclehelper.community;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.TextUtils;
+import android.provider.Settings;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,7 +27,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import kr.akotis.recyclehelper.R;
@@ -59,27 +62,62 @@ public class CommunityWriteActivity extends AppCompatActivity {
 
         // 작성 완료 버튼
         btnSubmit.setOnClickListener(v -> submitPost());
+
+
     }
 
-    private void openImagePickerDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("사진 선택");
-        builder.setItems(new CharSequence[]{"카메라", "갤러리"}, (dialog, which) -> {
-            if (which == 0) {
-                // 카메라 선택
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, REQUEST_CODE_CAMERA);
+    // 카메라 권한 요청 메서드
+    private void checkAndRequestPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // 권한이 없으면 요청
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA);
+        } else {
+            // 권한이 있으면 카메라 실행
+            openCamera();
+        }
+    }
+
+    // 권한 요청 결과 처리
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_CODE_CAMERA) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 권한이 허용되면 카메라 실행
+                openCamera();
             } else {
-                // 갤러리 선택
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setType("image/*");
-                startActivityForResult(intent, REQUEST_CODE_GALLERY);
+                // 권한이 거부되면 안내 메시지
+                Toast.makeText(this, "카메라 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+
+                // 권한을 거부한 경우, 설정으로 이동할 수 있도록 안내
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                    // 권한 요청 거부 후, 사용자가 권한을 요청할 수 있도록 안내
+                    Toast.makeText(this, "카메라 권한을 허용해 주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    // 권한을 거부하고 나서, 사용자가 설정으로 이동할 수 있도록 안내
+                    new AlertDialog.Builder(this)
+                            .setMessage("카메라 권한이 필요합니다. 권한을 허용하려면 설정을 변경해주세요.")
+                            .setPositiveButton("설정", (dialog, which) -> {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                intent.setData(uri);
+                                startActivity(intent);
+                            })
+                            .setNegativeButton("취소", null)
+                            .show();
+                }
             }
-        });
-        builder.show();
+        }
     }
 
-    // Activity 결과 처리 (카메라 또는 갤러리에서 이미지를 받기)
+    // 카메라 실행 메서드
+    private void openCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CODE_CAMERA);
+    }
+
+    // Activity 결과 처리 (카메라에서 사진을 찍었을 때)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -94,6 +132,25 @@ public class CommunityWriteActivity extends AppCompatActivity {
                 imageUri = data.getData();
             }
         }
+    }
+
+    private void openImagePickerDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("사진 선택");
+        builder.setItems(new CharSequence[]{"카메라", "갤러리"}, (dialog, which) -> {
+            if (which == 0) {
+                // 카메라 선택
+                checkAndRequestPermissions();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, REQUEST_CODE_CAMERA);
+            } else {
+                // 갤러리 선택
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/*");
+                startActivityForResult(intent, REQUEST_CODE_GALLERY);
+            }
+        });
+        builder.show();
     }
 
     // Bitmap을 Uri로 변환 (카메라에서 찍은 사진)
