@@ -33,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -199,21 +200,17 @@ public class VoiceSearchActivity extends AppCompatActivity {
     private void fetchRecyclingInfo(String query) {
         OkHttpClient client = new OkHttpClient();
         String url = "https://api.openai.com/v1/chat/completions";
-        String apiKey = "";
+        String apiKey = BuildConfig.API_KEY;;
+        String moreprompt = "의 분리수거 방법을 알려주세요." +
+                "만약 지금 말한 물체가 문장 혹은 물체가 아닌경우 '잘못된 정보입니다' 를 반환하세요." +
+                "만약 옳바른 물체인경우 다음 형식과 같이 반환하세요." +
+                "'ㅇㅇ은 종이류로 분리배출하여야 합니다.\n" +
+                "분리배출을 위해서는 다음 과정을 따라주세요.\n\n" +
+                "1. 라벨이 있을경우 제거합니다.\n" +
+                "2. 부피를 최대한 줄여서 분리배출 합니다.\n" +
+                "3. ....'";
 
-        try {
-            // Properties 객체 생성
-            Properties properties = new Properties();
-            FileInputStream fis = new FileInputStream("apikey.properties");
-            properties.load(fis);
-
-            // API 키 가져오기
-            apiKey = properties.getProperty("API_KEY");
-        } catch (IOException e) {
-            System.err.println("Failed to load API key: " + e.getMessage());
-        }
-
-
+        
 
         JSONObject requestBody = new JSONObject();
         JSONArray messages = new JSONArray();
@@ -222,7 +219,7 @@ public class VoiceSearchActivity extends AppCompatActivity {
 
             messages.put(new JSONObject()
                     .put("role", "user")
-                    .put("content", query + "의 분리수거 방법을 알려주세요."));
+                    .put("content", query + moreprompt));
             requestBody.put("messages", messages);
         } catch (JSONException e) {
             e.printStackTrace();

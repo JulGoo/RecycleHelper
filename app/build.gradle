@@ -3,9 +3,16 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     namespace 'kr.akotis.recyclehelper'
     compileSdk 34
+
+    buildFeatures {
+        buildConfig true
+    }
 
     defaultConfig {
         applicationId "kr.akotis.recyclehelper"
@@ -15,6 +22,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "API_KEY", properties["API_KEY"]
     }
 
     buildTypes {
