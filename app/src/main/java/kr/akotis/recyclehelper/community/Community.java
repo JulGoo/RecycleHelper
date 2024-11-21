@@ -3,6 +3,8 @@ package kr.akotis.recyclehelper.community;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Map;
+
 public class Community implements Parcelable {
     private String title;
     private String content;
@@ -10,16 +12,18 @@ public class Community implements Parcelable {
     private String imgUrls;
     private int pwd;
     private int report;
+    private Map<String, Comment> comments; // 댓글 데이터를 담을 Map
 
     public Community() {}
 
-    public Community(String title, String content, Long date, String imgUrls, int pwd, int report) {
+    public Community(String title, String content, Long date, String imgUrls, int pwd, int report, Map<String, Comment> comments) {
         this.title = title;
         this.content = content;
         this.date = date;
         this.imgUrls = imgUrls;
         this.pwd = pwd;
         this.report = report;
+        this.comments = comments;
     }
 
     public String getTitle() {
@@ -70,6 +74,14 @@ public class Community implements Parcelable {
         this.report = report;
     }
 
+    public Map<String, Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Map<String, Comment> comments) {
+        this.comments = comments;
+    }
+
     protected Community(Parcel in){
         title = in.readString();
         content = in.readString();
@@ -77,6 +89,7 @@ public class Community implements Parcelable {
         imgUrls = in.readString();
         pwd = in.readInt();
         report = in.readInt();
+        comments = in.readHashMap(Comment.class.getClassLoader());
     }
 
     public static final Creator<Community> CREATOR = new Creator<Community>() {
@@ -104,5 +117,6 @@ public class Community implements Parcelable {
         dest.writeString(imgUrls);
         dest.writeInt(pwd);
         dest.writeInt(report);
+        dest.writeMap(comments);
     }
 }
