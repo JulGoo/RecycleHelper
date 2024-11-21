@@ -39,6 +39,7 @@
         app:layout_constraintTop_toBottomOf="@+id/black"
         app:srcCompat="@drawable/btn_img_search"
         android:scaleType="fitCenter"
+        android:contentDescription="이미지 검색"
         android:adjustViewBounds="true" />
 
     <ImageButton
@@ -53,6 +54,7 @@
         app:layout_constraintWidth_percent="0.5"
         app:srcCompat="@drawable/btn_voice_search"
         android:scaleType="fitCenter"
+        android:contentDescription="음성 검색"
         android:adjustViewBounds="true" />
 
     <ImageButton
@@ -67,6 +69,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_img_search"
         app:srcCompat="@drawable/btn_recycling_guide"
         android:scaleType="fitCenter"
+        android:contentDescription="분리배출 요령"
         android:adjustViewBounds="true" />
 
     <ImageButton
@@ -81,6 +84,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_voice_search"
         app:srcCompat="@drawable/btn_notice"
         android:scaleType="fitCenter"
+        android:contentDescription="공지사항"
         android:adjustViewBounds="true" />
 
     <ImageButton
@@ -95,6 +99,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_recycling_guide"
         app:srcCompat="@drawable/btn_community"
         android:scaleType="fitCenter"
+        android:contentDescription="커뮤니티"
         android:adjustViewBounds="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

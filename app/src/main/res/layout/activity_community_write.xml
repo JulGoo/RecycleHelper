@@ -12,7 +12,7 @@
     <EditText
         android:id="@+id/et_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:hint="제목을 입력하세요"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -20,6 +20,8 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:padding="16sp"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -28,6 +30,9 @@
         android:layout_height="2dp"
         android:background="@color/white"
         android:layout_margin="15dp"
+        android:contentDescription="구분 선"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.02"
         app:layout_constraintTop_toBottomOf="@id/et_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -43,23 +48,32 @@
         android:padding="16sp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/bottom_line"
-        app:layout_constraintTop_toBottomOf="@id/line"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintTop_toBottomOf="@id/line" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_images"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="16sp"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintTop_toBottomOf="@id/et_content" />
 
     <Button
         android:id="@+id/btn_add_photo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="10dp"
         android:backgroundTint="@color/black"
         android:text="사진 추가"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_content" />
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintTop_toBottomOf="@id/recycler_images"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <View
         android:id="@+id/bottom_line"
@@ -67,6 +81,8 @@
         android:layout_height="2dp"
         android:background="@color/white"
         android:layout_margin="15dp"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.02"
         app:layout_constraintTop_toBottomOf="@id/btn_add_photo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -74,8 +90,8 @@
     <EditText
         android:id="@+id/et_password"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="password..."
+        android:layout_height="0dp"
+        android:hint="게시물 비밀번호를 입력하세요."
         android:backgroundTint="@color/white"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -85,35 +101,24 @@
         android:layout_marginStart="30dp"
         android:textSize="17sp"
         android:gravity="center_vertical"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintTop_toBottomOf="@id/bottom_line"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btn_submit"
-        android:layout_margin="3dp" />
-</LinearLayout>
-
-<androidx.recyclerview.widget.RecyclerView
-android:id="@+id/recycler_images"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_margin="16sp"
-app:layout_constraintTop_toBottomOf="@id/ll_notice_detail_detail2"
-android:orientation="horizontal"
-tools:listitem="" />
+        app:layout_constraintEnd_toStartOf="@id/btn_submit" />
 
     <Button
         android:id="@+id/btn_submit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:text="작성 완료"
         android:textColor="@color/white"
         android:backgroundTint="@color/black"
         android:textSize="18sp"
+        android:layout_marginTop="5sp"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.08"
         app:layout_constraintTop_toBottomOf="@id/bottom_line"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="10dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-

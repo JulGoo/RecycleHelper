@@ -20,6 +20,7 @@
             android:padding="16dp">
 
             <TextView
+                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="비닐류"
@@ -59,7 +60,8 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/vinyl"
+                    android:contentDescription="과자 봉지"
                     android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -85,8 +87,9 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:scaleType="centerCrop"
+                    android:src="@drawable/vinylbag"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="손잡이가 다른 소재인 플라스틱 가방"
                     android:layout_marginEnd="16dp" />
 
                 <TextView
@@ -117,13 +120,6 @@
                 android:layout_marginBottom="60dp"
                 android:gravity="center_vertical">
 
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:scaleType="centerCrop"
-                    android:layout_marginEnd="16dp" />
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -132,6 +128,14 @@
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:lineSpacingExtra="4dp" />
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/vinylgloves"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="비닐 장갑"
+                    android:layout_marginEnd="16dp" />
             </LinearLayout>
 
         </LinearLayout>

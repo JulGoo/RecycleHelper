@@ -20,6 +20,7 @@
             android:padding="16dp">
 
             <TextView
+                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="플라스틱 용기류"
@@ -59,7 +60,8 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/pet"
+                    android:contentDescription="페트병 사진"
                     android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -85,8 +87,9 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:scaleType="centerCrop"
+                    android:src="@drawable/plastic"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="플라스틱 샴푸 통 사진"
                     android:layout_marginEnd="16dp" />
 
                 <TextView
@@ -117,13 +120,6 @@
                 android:layout_marginBottom="60dp"
                 android:gravity="center_vertical">
 
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:scaleType="centerCrop"
-                    android:layout_marginEnd="16dp" />
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -132,6 +128,14 @@
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:lineSpacingExtra="4dp" />
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ballpoint"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="볼펜 사진"
+                    android:layout_marginEnd="16dp" />
             </LinearLayout>
 
         </LinearLayout>

@@ -46,5 +46,6 @@
         android:backgroundTint="@color/black"
         app:srcCompat="@drawable/dot_icon"
         app:tint="@color/white"
+        android:contentDescription="더 많은 기능 보기"
         android:scaleType="fitCenter" />
 </LinearLayout>

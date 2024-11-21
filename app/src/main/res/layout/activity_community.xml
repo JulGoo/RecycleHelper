@@ -53,5 +53,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:fabSize="mini"
         app:maxImageSize="60dp"
-        android:scaleType="centerInside" />
+        android:scaleType="centerInside"
+        android:contentDescription="글 쓰기 버튼"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

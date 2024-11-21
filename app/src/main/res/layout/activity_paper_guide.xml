@@ -20,6 +20,7 @@
             android:padding="16dp">
 
             <TextView
+                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="종이/종이팩"
@@ -59,7 +60,8 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/box"
+                    android:contentDescription="상자 사진"
                     android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -85,8 +87,9 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/newspaper"
                     android:scaleType="centerCrop"
+                    android:contentDescription="신문지 사진"
                     android:layout_marginEnd="16dp" />
 
                 <TextView
@@ -130,7 +133,8 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/springnote"
+                    android:contentDescription="스프링노트 사진"
                     android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -156,8 +160,9 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/milkpack"
                     android:scaleType="centerCrop"
+                    android:contentDescription="우유팩 사진"
                     android:layout_marginEnd="16dp" />
 
                 <TextView
@@ -188,12 +193,7 @@
                 android:layout_marginBottom="60dp"
                 android:gravity="center_vertical">
 
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:scaleType="centerCrop"
-                    android:layout_marginEnd="16dp" />
+
 
                 <TextView
                     android:layout_width="0dp"
@@ -203,6 +203,13 @@
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:lineSpacingExtra="4dp" />
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/receipt"
+                    android:contentDescription="영수증 사진"
+                    android:scaleType="centerCrop"
+                    android:layout_marginEnd="16dp" />
             </LinearLayout>
 
         </LinearLayout>
