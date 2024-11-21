@@ -22,12 +22,28 @@
         android:id="@+id/tv_voice_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="검색할 물건을 말해주세요"
         android:layout_marginTop="30sp"
-        android:textSize="35sp"
+        android:text="검색할 물건을 말해주세요"
         android:textColor="@color/white"
+        android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- TextView to show status -->
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_voice_search"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:text="마이크를 눌러주세요."
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_voice_search" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
