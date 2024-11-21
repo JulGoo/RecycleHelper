@@ -11,6 +11,7 @@ import android.os.Vibrator;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.google.firebase.database.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,12 +50,16 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class VoiceSearchActivity extends AppCompatActivity {
+public class VoiceSearchActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 1;
     private ImageView micImageView;
     private TextView statusTextView;
+    private TextView resultTextView;
     private SpeechRecognizer speechRecognizer;
     private boolean isListening = false;
+    private TextToSpeech tts;
+
+
 
 
 
@@ -66,6 +72,10 @@ public class VoiceSearchActivity extends AppCompatActivity {
 
         micImageView = findViewById(R.id.iv_voice_search);
         statusTextView = findViewById(R.id.statusTextView);
+        resultTextView = findViewById(R.id.voice_result);
+        tts = new TextToSpeech(this, this); //첫번째는 Context 두번째는 리스너
+
+
 
         // 오디오 권한 확인
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
@@ -74,6 +84,7 @@ public class VoiceSearchActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.RECORD_AUDIO},
                     REQUEST_RECORD_AUDIO_PERMISSION);
         }
+        
 
         // SpeechRecognizer 초기화
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
@@ -103,9 +114,9 @@ public class VoiceSearchActivity extends AppCompatActivity {
             }
         }
     }
+    
 
-
-    //
+    // 음성인식 리스닝
     private void startListening() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR"); // 언어 설정
@@ -157,15 +168,12 @@ public class VoiceSearchActivity extends AppCompatActivity {
             public void onResults(Bundle results) {
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 if (matches != null && !matches.isEmpty()) {
-                    //statusTextView.setText(matches.get(0)); // 가장 정확한 결과 표시
+                    runOnUiThread(() -> {
+                        statusTextView.setText(matches.get(0));
+                        tts.stop();
+                    });
                     fetchRecyclingInfo(matches.get(0));
                 }
-                //micImageView.setImageResource(R.drawable.ic_mic_inactive);
-                //for(int i=0; i<matches.size(); i++) {
-                //    statusTextView.setText(matches.get(i));
-                //    Log.e("Answer : ", matches.get(i));
-                //}
-
             }
 
             @Override   // 부분 인식 결과를 사용할 수 있을 때 호출
@@ -201,25 +209,40 @@ public class VoiceSearchActivity extends AppCompatActivity {
         OkHttpClient client = new OkHttpClient();
         String url = "https://api.openai.com/v1/chat/completions";
         String apiKey = BuildConfig.API_KEY;;
+        String systemprompt = "You are an expert in waste sorting and recycling according to South Korean regulations. Provide detailed and accurate guidance.";
         String moreprompt = "의 분리수거 방법을 알려주세요." +
-                "만약 지금 말한 물체가 문장 혹은 물체가 아닌경우 '잘못된 정보입니다' 를 반환하세요." +
-                "만약 옳바른 물체인경우 다음 형식과 같이 반환하세요." +
+                "만약 위에 입력된 단어가 문장 혹은 물체(쓰레기)가 아닌경우 '잘못된 정보입니다' 를 반환하세요.\n" +
+                "예시) 집가고 싶다, 공기, 수학여행\n" +
+                "만약 옳바른 물체 혹은 쓰레기인경우 다음 형식과 같이 반환하세요." +
                 "'ㅇㅇ은 종이류로 분리배출하여야 합니다.\n" +
                 "분리배출을 위해서는 다음 과정을 따라주세요.\n\n" +
                 "1. 라벨이 있을경우 제거합니다.\n" +
                 "2. 부피를 최대한 줄여서 분리배출 합니다.\n" +
                 "3. ....'";
 
-        
+        String moreprompt2 = "chatgpt로 프롬포트를 작성할건데 입력한 단어가 \n" +
+                "ㅇㅇ의 분리배출 방법 알려줘\n" +
+                "에서 ㅇㅇ 부분에 들어가기 적합하거나 이상한 단어이면 \"적절한 물체가 아닙니다.\"라고 답해.\n" +
+                "만약 적절한 문장이라면 해당 물건에 대한 분리배출 방법을 대한민국 기준으로 설명해줘.\n" +
+                "만약 분리배출이 애매한 물건이거나, 적절한 규정이 없다면 일반쓰레기로 버려야한다고 반환해줘.\n" +
+                "만약 분리배출 방법이 존재한다면 다음과 같은 형식으로 답변해줘.\n" +
+                "\"\'ㅇㅇ\'은 (분리배출방법)으로 버려야 합니다.\"" +
+                "추가적으로 알아야될 분리배출 규칙이 있다면 1. 2. 3... 등 추가하여 출력해줘." +
+                "이번 명령에 ㅇㅇ에 들어가는 단어는 \"" + query + "\"야";
 
         JSONObject requestBody = new JSONObject();
         JSONArray messages = new JSONArray();
         try {
-            requestBody.put("model", "gpt-3.5-turbo");
+            requestBody.put("model", "gpt-4o-mini");
+            //requestBody.put("model", "gpt-3.5-turbo");
+
+            messages.put(new JSONObject()
+                    .put("role", "system")
+                    .put("content", systemprompt));
 
             messages.put(new JSONObject()
                     .put("role", "user")
-                    .put("content", query + moreprompt));
+                    .put("content", moreprompt2));
             requestBody.put("messages", messages);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -258,7 +281,8 @@ public class VoiceSearchActivity extends AppCompatActivity {
 
                     String finalContent = content;
                     runOnUiThread(() -> {
-                        statusTextView.setText(finalContent);
+                        resultTextView.setText(finalContent);
+                        speakOutNow();
                     });
                 } else {
                     Log.e("ServerRequest", "응답 오류 " + response.code());
@@ -268,6 +292,31 @@ public class VoiceSearchActivity extends AppCompatActivity {
         });
     }
 
+
+
+
+
+
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            int language = tts.setLanguage(Locale.KOREAN);
+
+            if (language == TextToSpeech.LANG_MISSING_DATA || language == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Toast.makeText(this, "지원하지 않는 언어입니다.", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "TTS 실패!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void speakOutNow() {
+        String text = resultTextView.getText().toString();
+        //tts.setPitch((float) 0.1); //음량
+        //tts.setSpeechRate((float) 0.5); //재생속도
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
 
 
 
@@ -285,6 +334,10 @@ public class VoiceSearchActivity extends AppCompatActivity {
         super.onDestroy();
         if (speechRecognizer != null) {
             speechRecognizer.destroy();
+        }
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
         }
     }
 

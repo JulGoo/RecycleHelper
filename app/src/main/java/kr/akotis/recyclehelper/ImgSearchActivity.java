@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.speech.tts.TextToSpeech;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +43,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -55,7 +57,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 
-public class ImgSearchActivity extends AppCompatActivity {
+public class ImgSearchActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
     private static final int REQUEST_CODE_PERMISSIONS = 10;
     private static final String[] REQUIRED_PERMISSIONS = new String[]{android.Manifest.permission.CAMERA};
 
@@ -70,7 +72,7 @@ public class ImgSearchActivity extends AppCompatActivity {
     private ProgressBar loadingSpinner;
     private LinearLayout resultLayout;
     private TextView resultName;
-
+    private TextToSpeech tts;
 
 
     @Override
@@ -87,6 +89,7 @@ public class ImgSearchActivity extends AppCompatActivity {
         resultLayout = findViewById(R.id.resultLayout);     // 결과 화면 레이아웃
         resultImage = findViewById(R.id.resultImage);       // 결과 이미지
         resultName = findViewById(R.id.resultName);         // 결과 이름
+        tts = new TextToSpeech(this, this); //첫번째는 Context 두번째는 리스너
 
 
         cameraExecutor = Executors.newSingleThreadExecutor();
@@ -320,6 +323,7 @@ public class ImgSearchActivity extends AppCompatActivity {
         resultLayout.setVisibility(View.VISIBLE);
         resultImage.setImageBitmap(img);
         resultName.setText(name);
+        speakOutNow();
     }
 
 
@@ -363,6 +367,29 @@ public class ImgSearchActivity extends AppCompatActivity {
 
 
 
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            int language = tts.setLanguage(Locale.KOREAN);
+
+            if (language == TextToSpeech.LANG_MISSING_DATA || language == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Toast.makeText(this, "지원하지 않는 언어입니다.", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "TTS 실패!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void speakOutNow() {
+        String text = resultName.getText().toString();
+        //tts.setPitch((float) 0.1); //음량
+        //tts.setSpeechRate((float) 0.5); //재생속도
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+
+
+
 
     @Override
     protected void onDestroy() {
@@ -372,6 +399,10 @@ public class ImgSearchActivity extends AppCompatActivity {
         }
         if (mediaPlayer != null) {
             mediaPlayer.release();
+        }
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
         }
     }
 
