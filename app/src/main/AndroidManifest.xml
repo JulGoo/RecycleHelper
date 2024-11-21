@@ -22,7 +22,7 @@
         android:theme="@style/Theme.RecycleHelper"
         tools:targetApi="31">
         <activity
-            android:name=".notice.FullScreenImgNoticeActivity"
+            android:name=".FullScreenImgActivity"
             android:exported="false" />
         <activity
             android:name=".community.CommunityWriteActivity"

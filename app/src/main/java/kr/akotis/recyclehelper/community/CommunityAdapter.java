@@ -12,6 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import kr.akotis.recyclehelper.R;
 
 public class CommunityAdapter extends FirebaseRecyclerAdapter<Community, CommunityAdapter.CommunityViewHolder> {
@@ -23,12 +27,16 @@ public class CommunityAdapter extends FirebaseRecyclerAdapter<Community, Communi
     protected void onBindViewHolder(@NonNull CommunityViewHolder holder, int position,
                                     @NonNull Community model) {
         holder.tvCommunityTitle.setText(model.getTitle());
-        holder.tvCommunityDate.setText(model.getDate());
+
+        // 타임스탬프를 읽어 날짜로 변환
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        String formattedDate = sdf.format(new Date(model.getDate()));
+        holder.tvCommunityDate.setText(formattedDate);
 
         // 클릭 이벤트 처리
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), CommunityDetailActivity.class);
-            intent.putExtra("notice", model);  // Parcelable 객체를 인텐트에 전달
+            intent.putExtra("community", model);  // Parcelable 객체를 인텐트에 전달
             holder.itemView.getContext().startActivity(intent);
         });
     }

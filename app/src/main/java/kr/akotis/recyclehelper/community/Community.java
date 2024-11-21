@@ -6,14 +6,14 @@ import android.os.Parcelable;
 public class Community implements Parcelable {
     private String title;
     private String content;
-    private String date;
+    private Long date;
     private String imgUrls;
     private int pwd;
     private int report;
 
     public Community() {}
 
-    public Community(String title, String content, String date, String imgUrls, int pwd, int report) {
+    public Community(String title, String content, Long date, String imgUrls, int pwd, int report) {
         this.title = title;
         this.content = content;
         this.date = date;
@@ -38,11 +38,11 @@ public class Community implements Parcelable {
         this.content = content;
     }
 
-    public String getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
@@ -73,7 +73,7 @@ public class Community implements Parcelable {
     protected Community(Parcel in){
         title = in.readString();
         content = in.readString();
-        date = in.readString();
+        date = in.readLong();
         imgUrls = in.readString();
         pwd = in.readInt();
         report = in.readInt();
@@ -100,7 +100,7 @@ public class Community implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeString(content);
-        dest.writeString(date);
+        dest.writeLong(date);
         dest.writeString(imgUrls);
         dest.writeInt(pwd);
         dest.writeInt(report);
