@@ -3,8 +3,12 @@ package kr.akotis.recyclehelper.community;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -22,14 +26,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import kr.akotis.recyclehelper.R;
-import kr.akotis.recyclehelper.notice.NoticeImgAdapter;
 
 public class CommunityDetailActivity extends AppCompatActivity {
 
-    private TextView tvTitle, tvContent;
+    private TextView tvTitle, tvContent, tvDate;
     private RecyclerView recyclerImages, recyclerComments;
     private CommunityImgAdapter imgAdapter;
     private CommentAdapter commentAdapter;
@@ -46,8 +52,8 @@ public class CommunityDetailActivity extends AppCompatActivity {
 
         // 상세게시글
         tvTitle = findViewById(R.id.tv_title);
-        //tvDate = findViewById(R.id.tv_date);
         tvContent = findViewById(R.id.tv_content);
+        tvDate = findViewById(R.id.tv_date);
         recyclerImages = findViewById(R.id.recycler_images);
 
         // 댓글
@@ -58,12 +64,33 @@ public class CommunityDetailActivity extends AppCompatActivity {
         // 삭제, 신고 메뉴
         btnMenu = findViewById(R.id.btn_menu);
 
+        // 팝업 메뉴 클릭 리스너
+        btnMenu.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(CommunityDetailActivity.this, btnMenu);
+            popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
+
+            popupMenu.setOnMenuItemClickListener(item -> {
+                Intent intent1 = new Intent(CommunityDetailActivity.this, PopupActivity.class);
+                intent1.putExtra("menu_id", item.getItemId()); // 선택된 메뉴 ID 전달
+                startActivity(intent1);
+                return true;
+            });
+
+            popupMenu.show();
+        });
+
         // Firebase 참조 설정
         Intent intent = getIntent();
         Community community = intent.getParcelableExtra("community");
         if (community != null) {
             tvTitle.setText(community.getTitle());
             tvContent.setText(community.getContent());
+
+            // 타임스탬프를 읽어 날짜로 변환
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            String formattedDate = sdf.format(new Date(community.getDate()));
+
+            tvDate.setText(formattedDate);
 
             // 이미지 URL 리스트 처리
             String[] imgUrls = community.getImgUrls().split(",");
@@ -79,18 +106,10 @@ public class CommunityDetailActivity extends AppCompatActivity {
 
             setupCommentRecyclerView();
 
-            Log.e("CommunityDetailActivity", "===================================Community: " + community.getTitle());
+            Log.e("CommunityDetailActivity", "Community: " + community.getTitle());
         } else {
-            Log.e("CommunityDetailActivity", "===================================Community data is null");
+            Log.e("CommunityDetailActivity", "Community data is null");
         }
-
-        // 댓글 전송 버튼 클릭 리스너
-//        btnSend.setOnClickListener(v -> {
-//            String commentContent = etComment.getText().toString();
-//            if (!commentContent.isEmpty()) {
-//                addComment(commentContent);
-//            }
-//        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.recycler_view), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -109,43 +128,6 @@ public class CommunityDetailActivity extends AppCompatActivity {
         commentAdapter = new CommentAdapter(options);
         recyclerComments.setLayoutManager(new LinearLayoutManager(this));
         recyclerComments.setAdapter(commentAdapter);
-
-        commentRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // 댓글이 존재하면 데이터를 처리
-                    for (DataSnapshot commentSnapshot : dataSnapshot.getChildren()) {
-                        String content = commentSnapshot.child("content").getValue(String.class);
-                        Long date = commentSnapshot.child("date").getValue(Long.class);
-                        int report = commentSnapshot.child("report").getValue(Integer.class);
-
-                        // 필요한 처리를 진행 (예: RecyclerView에 데이터 추가)
-                        Log.e("CommunityDetailActivity", "Comment: " + content);
-                    }
-                } else {
-                    // 댓글이 없을 때
-                    Log.e("CommunityDetailActivity", "No comments found.");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("CommunityDetailActivity", "Failed to load comments.", databaseError.toException());
-            }
-        });
-
-        Log.e("CommunityDetailActivity", "===========!!!!!!!!!!!!!!!!!!!!!!=============="+commentAdapter.getItemCount());
-    }
-
-    private void addComment(String commentContent) {
-//        String commentId = commentRef.push().getKey();
-//        if (commentId != null) {
-//            Comment newComment = new Comment(content, System.currentTimeMillis(), 0, 0);
-//            commentRef.child(commentId).setValue(newComment)
-//                    .addOnSuccessListener(aVoid -> etComment.setText("")) // 입력 필드 초기화
-//                    .addOnFailureListener(e -> Log.e("CommunityDetailActivity", "Failed to add comment", e));
-//        }
     }
 
     @Override
