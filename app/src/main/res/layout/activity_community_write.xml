@@ -47,6 +47,7 @@
         app:layout_constraintTop_toBottomOf="@id/line"
         app:layout_constraintVertical_bias="0.0" />
 
+
     <Button
         android:id="@+id/btn_add_photo"
         android:layout_width="wrap_content"
@@ -89,6 +90,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btn_submit"
         android:layout_margin="3dp" />
+</LinearLayout>
+
+<androidx.recyclerview.widget.RecyclerView
+android:id="@+id/recycler_images"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_margin="16sp"
+app:layout_constraintTop_toBottomOf="@id/ll_notice_detail_detail2"
+android:orientation="horizontal"
+tools:listitem="" />
 
     <Button
         android:id="@+id/btn_submit"
