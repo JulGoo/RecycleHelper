@@ -11,13 +11,13 @@ public class Community implements Parcelable {
     private String content;
     private Long date;
     private String imgUrls;
-    private int pwd;
+    private String pwd;
     private int report;
     private Map<String, Comment> comments;
 
     public Community() {}
 
-    public Community(String id, String title, String content, Long date, String imgUrls, int pwd, int report, Map<String, Comment> comments) {
+    public Community(String id, String title, String content, Long date, String imgUrls, String pwd, int report, Map<String, Comment> comments) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -68,11 +68,11 @@ public class Community implements Parcelable {
         this.imgUrls = imgUrls;
     }
 
-    public int getPwd() {
+    public String getPwd() {
         return pwd;
     }
 
-    public void setPwd(int pwd) {
+    public void setPwd(String pwd) {
         this.pwd = pwd;
     }
 
@@ -98,7 +98,7 @@ public class Community implements Parcelable {
         content = in.readString();
         date = in.readLong();
         imgUrls = in.readString();
-        pwd = in.readInt();
+        pwd = in.readString();
         report = in.readInt();
         comments = in.readHashMap(Comment.class.getClassLoader());
     }
@@ -127,7 +127,7 @@ public class Community implements Parcelable {
         dest.writeString(content);
         dest.writeLong(date);
         dest.writeString(imgUrls);
-        dest.writeInt(pwd);
+        dest.writeString(pwd);
         dest.writeInt(report);
         dest.writeMap(comments);
     }

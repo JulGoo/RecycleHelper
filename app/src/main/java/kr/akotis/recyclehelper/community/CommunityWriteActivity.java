@@ -193,7 +193,7 @@ public class CommunityWriteActivity extends AppCompatActivity {
                     etContent.getText().toString(),
                     System.currentTimeMillis(),
                     savedUrls,
-                    Integer.parseInt(etPassword.getText().toString().trim()),
+                    etPassword.getText().toString().trim(),
                     0,  // 신고 횟수
                     new HashMap<>()
             );

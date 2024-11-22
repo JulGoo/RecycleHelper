@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -46,7 +47,7 @@ public class CommunityDetailActivity extends AppCompatActivity {
     private ImageButton btnMenu, btnSend;
 
     private DatabaseReference commentRef;
-    private int thispw = 0;
+    private String thispw = "";
     private String id = "";
 
 
@@ -80,8 +81,8 @@ public class CommunityDetailActivity extends AppCompatActivity {
                 //intent1.putExtra("menu_id", item.getItemId()); // 선택된 메뉴 ID 전달
                 //startActivity(intent1);
 
-
-                if(item.getItemId() == 2131230892) {
+                Log.d("menu", "menu_title: " + item.getTitle());
+                if(item.getTitle().equals("삭제")) {
                     showDeleteDialog();
                 } else {
                     // 2131231143
@@ -111,12 +112,27 @@ public class CommunityDetailActivity extends AppCompatActivity {
             id = community.getId();
 
             // 이미지 URL 리스트 처리
-            String[] imgUrls = community.getImgUrls().split(",");
-            if(imgUrls.length != 1) {
-                imgAdapter = new CommunityImgAdapter(List.of(imgUrls));
-                recyclerImages.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-                recyclerImages.setAdapter(imgAdapter);
+            if (community.getImgUrls() != null && !community.getImgUrls().isEmpty()) { // null 또는 빈 문자열 확인
+                String[] imgUrls = community.getImgUrls().split(",");
+                List<String> imgUrlList = Arrays.asList(imgUrls); // Arrays.asList 사용으로 불변 List 생성
+
+                if (!imgUrlList.isEmpty()) { // 리스트가 비어있지 않은 경우
+                    imgAdapter = new CommunityImgAdapter(imgUrlList);
+
+                    // RecyclerView 초기화
+                    recyclerImages.setHasFixedSize(true); // 성능 최적화
+                    recyclerImages.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                    recyclerImages.setAdapter(imgAdapter);
+
+                    // 디버깅 로그 추가
+                    Log.d("RecyclerView Init", "RecyclerView initialized with " + imgUrlList.size() + " items.");
+                } else {
+                    Log.e("RecyclerView Init", "Image URL list is empty.");
+                }
+            } else {
+                Log.e("RecyclerView Init", "Image URLs are null or empty.");
             }
+
 
 
             // Firebase에서 댓글 경로 설정
@@ -202,8 +218,7 @@ public class CommunityDetailActivity extends AppCompatActivity {
             }
 
             try {
-                int a = Integer.parseInt(inputText);
-                if(a == thispw) {
+                if(inputText.equals(thispw)) {
                     deleteItemFromFirebase();
                 } else {
                     Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();

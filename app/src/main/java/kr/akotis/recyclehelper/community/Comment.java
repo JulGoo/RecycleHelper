@@ -6,12 +6,12 @@ import android.os.Parcelable;
 public class Comment implements Parcelable {
     private String content;
     private long date;
-    private int pwd;
+    private String pwd;
     private int report;
 
     public Comment() {}
 
-    public Comment(String content, long date, int pwd, int report) {
+    public Comment(String content, long date, String pwd, int report) {
         this.content = content;
         this.date = date;
         this.pwd = pwd;
@@ -34,11 +34,11 @@ public class Comment implements Parcelable {
         this.date = date;
     }
 
-    public int getPwd() {
+    public String getPwd() {
         return pwd;
     }
 
-    public void setPwd(int pwd) {
+    public void setPwd(String pwd) {
         this.pwd = pwd;
     }
 
@@ -54,7 +54,7 @@ public class Comment implements Parcelable {
     protected Comment(Parcel in) {
         content = in.readString();
         date = in.readLong();
-        pwd = in.readInt();
+        pwd = in.readString();
         report = in.readInt();
     }
 
@@ -79,7 +79,7 @@ public class Comment implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(content);
         dest.writeLong(date);
-        dest.writeInt(pwd);
+        dest.writeString(pwd);
         dest.writeInt(report);
     }
 }
