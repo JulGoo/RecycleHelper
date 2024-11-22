@@ -32,8 +32,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import kr.akotis.recyclehelper.R;
 
@@ -67,6 +69,15 @@ public class CommunityDetailActivity extends AppCompatActivity {
         recyclerComments = findViewById(R.id.recycler_comments);
         etComment = findViewById(R.id.et_comment);
         btnSend = findViewById(R.id.btn_send);
+        btnSend.setOnClickListener(v -> {
+            String commentText = etComment.getText().toString();
+            if (commentText.isEmpty()) {
+                Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            }
+
+            sendToFirebase(commentText);
+        });
+
 
         // 삭제, 신고 메뉴
         btnMenu = findViewById(R.id.btn_menu);
@@ -285,4 +296,29 @@ public class CommunityDetailActivity extends AppCompatActivity {
                     Toast.makeText(this, "삭제에 실패하였습니다", Toast.LENGTH_SHORT).show();
                 });
     }
+
+
+    // firebase 댓글 추가
+    private void sendToFirebase(String commentText) {
+        DatabaseReference communityRef = FirebaseDatabase.getInstance().getReference("Community").child(id).child("comments");
+        String key = communityRef.push().getKey();
+        if(key != null) {
+            Map<String, Object> commentData = new HashMap<>();
+            commentData.put("content", commentText);
+            commentData.put("date", System.currentTimeMillis());
+            commentData.put("pwd", "1234");
+            commentData.put("report", 0);
+
+            communityRef.child(key).setValue(commentData)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(this, "댓글이 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                        etComment.setText("");
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "댓글 추가 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
+    }
+
+
 }

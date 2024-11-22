@@ -232,7 +232,6 @@ public class VoiceSearchActivity extends AppCompatActivity implements TextToSpee
                 "만약 적절한 문장이라면 해당 물건에 대한 분리배출 방법을 대한민국 기준으로 설명해줘.\n" +
                 "만약 분리배출이 애매한 물건이거나, 적절한 규정이 없다면 일반쓰레기로 버려야한다고 반환해줘.\n" +
                 "만약 분리배출 방법이 존재한다면 다음과 같은 형식으로 답변해줘.\n" +
-                "첫번째 줄에는 분리배출 방법을 작성하고 \\n을 넣어줘. 그다음에는" +
                 "\"\'ㅇㅇ\'은 (분리배출방법)으로 버려야 합니다.\"" +
                 "을 출력하고, 아래 내용을 출력해." +
                 "추가적으로 알아야될 분리배출 규칙이 있다면 1. 2. 3... 등 추가하여 출력해줘." +
@@ -299,9 +298,11 @@ public class VoiceSearchActivity extends AppCompatActivity implements TextToSpee
                         two = content;
                     }
 
+                    String finalContent = content;
                     runOnUiThread(() -> {
-                        resultTextView1.setText(one);
-                        resultTextView2.setText(two);
+                        //resultTextView1.setText(one);
+                        //resultTextView2.setText(two);
+                        resultTextView2.setText(finalContent);
                         speakOutNow();
                     });
                 } else {
