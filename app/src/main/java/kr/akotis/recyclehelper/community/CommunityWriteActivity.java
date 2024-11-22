@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,19 +21,24 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import kr.akotis.recyclehelper.R;
 
 public class CommunityWriteActivity extends AppCompatActivity {
-
+    private static final int REQUEST_CODE_PERMISSIONS = 10;
+    private static final String[] REQUIRED_PERMISSIONS = new String[]{android.Manifest.permission.CAMERA};
     private static final int REQUEST_CODE_CAMERA = 1;
     private static final int REQUEST_CODE_GALLERY = 2;
 
@@ -41,6 +47,13 @@ public class CommunityWriteActivity extends AppCompatActivity {
 
     private Uri imageUri;
     private DatabaseReference databaseRef;
+
+
+    private RecyclerView recyclerImages;
+    private CommunityImgAdapter imgAdapter;
+    private ArrayList<String> imgUrls = new ArrayList<>();
+    private String savedUrls = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,56 +70,35 @@ public class CommunityWriteActivity extends AppCompatActivity {
         btnAddPhoto = findViewById(R.id.btn_add_photo);
         btnSubmit = findViewById(R.id.btn_submit);
 
+        recyclerImages = findViewById(R.id.recycler_images);
+
         // 사진 추가 버튼 클릭 리스너
         btnAddPhoto.setOnClickListener(v -> openImagePickerDialog());
 
         // 작성 완료 버튼
         btnSubmit.setOnClickListener(v -> submitPost());
-
-
     }
 
-    // 카메라 권한 요청 메서드
-    private void checkAndRequestPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // 권한이 없으면 요청
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA);
-        } else {
-            // 권한이 있으면 카메라 실행
-            openCamera();
+
+
+    private boolean allPermissionsGranted() {
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
         }
+        return true;
     }
 
     // 권한 요청 결과 처리
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == REQUEST_CODE_CAMERA) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 권한이 허용되면 카메라 실행
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
                 openCamera();
             } else {
-                // 권한이 거부되면 안내 메시지
-                Toast.makeText(this, "카메라 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
-
-                // 권한을 거부한 경우, 설정으로 이동할 수 있도록 안내
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                    // 권한 요청 거부 후, 사용자가 권한을 요청할 수 있도록 안내
-                    Toast.makeText(this, "카메라 권한을 허용해 주세요.", Toast.LENGTH_SHORT).show();
-                } else {
-                    // 권한을 거부하고 나서, 사용자가 설정으로 이동할 수 있도록 안내
-                    new AlertDialog.Builder(this)
-                            .setMessage("카메라 권한이 필요합니다. 권한을 허용하려면 설정을 변경해주세요.")
-                            .setPositiveButton("설정", (dialog, which) -> {
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
-                            })
-                            .setNegativeButton("취소", null)
-                            .show();
-                }
+                Toast.makeText(this, "카메라 권한이 없습니다.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -131,6 +123,11 @@ public class CommunityWriteActivity extends AppCompatActivity {
                 // 갤러리에서 선택한 이미지 처리
                 imageUri = data.getData();
             }
+
+            imgUrls.add(imageUri.toString());
+            imgAdapter = new CommunityImgAdapter(imgUrls);
+            recyclerImages.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            recyclerImages.setAdapter(imgAdapter);
         }
     }
 
@@ -140,9 +137,11 @@ public class CommunityWriteActivity extends AppCompatActivity {
         builder.setItems(new CharSequence[]{"카메라", "갤러리"}, (dialog, which) -> {
             if (which == 0) {
                 // 카메라 선택
-                checkAndRequestPermissions();
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, REQUEST_CODE_CAMERA);
+                if (allPermissionsGranted()) {
+                    openCamera();
+                } else {
+                    ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+                }
             } else {
                 // 갤러리 선택
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -160,7 +159,7 @@ public class CommunityWriteActivity extends AppCompatActivity {
     }
 
     // Firebase에 이미지를 업로드하는 메서드
-    private void uploadImageToFirebase(Uri imageUri) {
+    private String uploadImageToFirebase(Uri imageUri) {
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference imageRef = storageRef.child("images/" + UUID.randomUUID().toString() + ".jpg");
 
@@ -168,16 +167,26 @@ public class CommunityWriteActivity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> {
                     imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         String downloadUrl = uri.toString();
-                        saveImageUrlToDatabase(downloadUrl);
+                        saveURLs(downloadUrl);
+                        Log.d("TEST", downloadUrl);
+                        //saveImageUrlToDatabase(downloadUrl);
                     });
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(CommunityWriteActivity.this, "사진 업로드 실패", Toast.LENGTH_SHORT).show();
                 });
+        return null;
+    }
+
+    private void saveURLs(String url) {
+        if (!savedUrls.isEmpty()) {
+            savedUrls += ","; // 기존에 값이 있으면 콤마 추가
+        }
+        savedUrls += url;
     }
 
     // Firebase Database에 이미지 URL 저장
-    private void saveImageUrlToDatabase(String imageUrl) {
+    private void saveImageUrlToDatabase() {
         String communityId = databaseRef.push().getKey();
         if (communityId != null) {
             Community community = new Community(
@@ -185,7 +194,7 @@ public class CommunityWriteActivity extends AppCompatActivity {
                     etTitle.getText().toString(),
                     etContent.getText().toString(),
                     System.currentTimeMillis(),
-                    imageUrl,
+                    savedUrls,
                     Integer.parseInt(etPassword.getText().toString().trim()),
                     0,  // 신고 횟수
                     new HashMap<>()
@@ -213,10 +222,22 @@ public class CommunityWriteActivity extends AppCompatActivity {
             return;
         }
 
-        if (imageUri != null) {
-            uploadImageToFirebase(imageUri);
-        } else {
-            saveImageUrlToDatabase(null);
+        System.out.println("THIS imgUrls SIZE IS : " + imgUrls.size());
+        if(!imgUrls.isEmpty()) {
+            System.out.println("NOT EMPTY");
+            for(String imgu : imgUrls) {
+                Uri uri = Uri.parse(imgu);
+                Log.d("Test -- " , imgu);
+                uploadImageToFirebase(uri);
+            }
         }
+
+        Log.d("VALUE : ", savedUrls);
+        saveImageUrlToDatabase();
+
+        // 초기화
+        savedUrls = "";
+        imgUrls = new ArrayList<>();
+        imageUri = null;
     }
 }

@@ -26,17 +26,22 @@ public class CommunityAdapter extends FirebaseRecyclerAdapter<Community, Communi
     @Override
     protected void onBindViewHolder(@NonNull CommunityViewHolder holder, int position,
                                     @NonNull Community model) {
-        holder.tvCommunityTitle.setText(model.getTitle());
+        // 최신순 정렬: position을 역순으로 처리
+        int reversePosition = getItemCount() - 1 - position;
+        Community reverseModel = getSnapshots().get(reversePosition);
+
+
+        holder.tvCommunityTitle.setText(reverseModel.getTitle());
 
         // 타임스탬프를 읽어 날짜로 변환
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-        String formattedDate = sdf.format(new Date(model.getDate()));
+        String formattedDate = sdf.format(new Date(reverseModel.getDate()));
         holder.tvCommunityDate.setText(formattedDate);
 
         // 클릭 이벤트 처리
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), CommunityDetailActivity.class);
-            intent.putExtra("community", model);  // Parcelable 객체를 인텐트에 전달
+            intent.putExtra("community", reverseModel);  // Parcelable 객체를 인텐트에 전달
             holder.itemView.getContext().startActivity(intent);
         });
     }

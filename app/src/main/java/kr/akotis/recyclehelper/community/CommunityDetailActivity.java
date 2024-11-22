@@ -94,9 +94,12 @@ public class CommunityDetailActivity extends AppCompatActivity {
 
             // 이미지 URL 리스트 처리
             String[] imgUrls = community.getImgUrls().split(",");
-            imgAdapter = new CommunityImgAdapter(List.of(imgUrls));
-            recyclerImages.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            recyclerImages.setAdapter(imgAdapter);
+            if(imgUrls.length != 1) {
+                imgAdapter = new CommunityImgAdapter(List.of(imgUrls));
+                recyclerImages.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                recyclerImages.setAdapter(imgAdapter);
+            }
+
 
             // Firebase에서 댓글 경로 설정
             commentRef = FirebaseDatabase.getInstance()

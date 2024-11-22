@@ -15,6 +15,7 @@ import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,9 +53,10 @@ import okhttp3.Response;
 
 public class VoiceSearchActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 1;
-    private ImageView micImageView;
+    private ImageButton micImageView;
     private TextView statusTextView;
-    private TextView resultTextView;
+    private TextView resultTextView1;
+    private TextView resultTextView2;
     private SpeechRecognizer speechRecognizer;
     private boolean isListening = false;
     private TextToSpeech tts;
@@ -70,9 +72,10 @@ public class VoiceSearchActivity extends AppCompatActivity implements TextToSpee
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_voice_search);
 
-        micImageView = findViewById(R.id.iv_voice_search);
+        micImageView = findViewById(R.id.voiceButton);
         statusTextView = findViewById(R.id.statusTextView);
-        resultTextView = findViewById(R.id.voice_result);
+        resultTextView1 = findViewById(R.id.voice_result1);
+        resultTextView2 = findViewById(R.id.voice_result2);
         tts = new TextToSpeech(this, this); //첫번째는 Context 두번째는 리스너
 
 
@@ -126,8 +129,10 @@ public class VoiceSearchActivity extends AppCompatActivity implements TextToSpee
         speechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override   // 말하기 시작할 준비되면 호출
             public void onReadyForSpeech(Bundle params) {
-                //statusTextView.setText("음성인식 중...");
+                tts.stop();
+                statusTextView.setText("음성인식 중...");
                 vibrateOnClick();
+                //micImageView.setImageDrawable(R.drawable.voice_search_icon_on);
                 micImageView.setImageResource(R.drawable.voice_search_icon_on); // 활성화 상태 표시
             }
 
@@ -161,11 +166,12 @@ public class VoiceSearchActivity extends AppCompatActivity implements TextToSpee
                     default -> "알 수 없는 오류입니다.";
                 };
                 Toast.makeText(VoiceSearchActivity.this, message, Toast.LENGTH_SHORT).show();
-                micImageView.setImageResource(R.drawable.voice_search_icon); // 비활성화 상태 표시
+                micImageView.setImageResource(R.drawable.voice_search_icon_black); // 비활성화 상태 표시
             }
 
             @Override   // 결과 처리
             public void onResults(Bundle results) {
+                statusTextView.setText("마이크를 눌러주세요.");
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 if (matches != null && !matches.isEmpty()) {
                     runOnUiThread(() -> {
@@ -191,7 +197,7 @@ public class VoiceSearchActivity extends AppCompatActivity implements TextToSpee
         if (isListening) {
             speechRecognizer.stopListening();
             isListening = false;
-            micImageView.setImageResource(R.drawable.voice_search_icon);
+            micImageView.setImageResource(R.drawable.voice_search_icon_black);
         }
     }
 
@@ -226,7 +232,9 @@ public class VoiceSearchActivity extends AppCompatActivity implements TextToSpee
                 "만약 적절한 문장이라면 해당 물건에 대한 분리배출 방법을 대한민국 기준으로 설명해줘.\n" +
                 "만약 분리배출이 애매한 물건이거나, 적절한 규정이 없다면 일반쓰레기로 버려야한다고 반환해줘.\n" +
                 "만약 분리배출 방법이 존재한다면 다음과 같은 형식으로 답변해줘.\n" +
+                "첫번째 줄에는 분리배출 방법을 작성하고 \\n을 넣어줘. 그다음에는" +
                 "\"\'ㅇㅇ\'은 (분리배출방법)으로 버려야 합니다.\"" +
+                "을 출력하고, 아래 내용을 출력해." +
                 "추가적으로 알아야될 분리배출 규칙이 있다면 1. 2. 3... 등 추가하여 출력해줘." +
                 "이번 명령에 ㅇㅇ에 들어가는 단어는 \"" + query + "\"야";
 
@@ -279,9 +287,21 @@ public class VoiceSearchActivity extends AppCompatActivity implements TextToSpee
                         Log.e("JSON Parsing ERROR", "JSON 파싱 에러 " + responseData, e);
                     }
 
-                    String finalContent = content;
+                    // 결과값 문자열 나누기
+                    int splitLine = content.indexOf("\n");
+                    String one, two;
+                    if (splitLine != -1) {
+                        one = content.substring(0, splitLine).trim(); // 첫 번째 문장
+                        two = content.substring(splitLine + 1).trim(); // 나머지 문장
+                    } else {
+                        // \n이 없을 경우 처리
+                        one = "";
+                        two = content;
+                    }
+
                     runOnUiThread(() -> {
-                        resultTextView.setText(finalContent);
+                        resultTextView1.setText(one);
+                        resultTextView2.setText(two);
                         speakOutNow();
                     });
                 } else {
@@ -291,6 +311,7 @@ public class VoiceSearchActivity extends AppCompatActivity implements TextToSpee
             }
         });
     }
+
 
 
 
@@ -312,7 +333,7 @@ public class VoiceSearchActivity extends AppCompatActivity implements TextToSpee
     }
 
     private void speakOutNow() {
-        String text = resultTextView.getText().toString();
+        String text = resultTextView2.getText().toString();
         //tts.setPitch((float) 0.1); //음량
         //tts.setSpeechRate((float) 0.5); //재생속도
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);

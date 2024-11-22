@@ -8,32 +8,33 @@
     android:background="@color/black"
     tools:context=".VoiceSearchActivity">
 
-    <!-- TextView to show status -->
-    <ImageView
-        android:id="@+id/iv_voice_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <ImageButton
+        android:id="@+id/voiceButton"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/circle_button_background"
+        android:contentDescription="음성 인식 버튼"
+        android:scaleType="centerInside"
+        android:src="@drawable/voice_search_icon_black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.444"
-        app:srcCompat="@drawable/voice_search_icon" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_voice_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="148dp"
         android:layout_marginEnd="20dp"
         android:text="검색할 물건을 말해주세요"
         android:textColor="@color/white"
         android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,30 +42,47 @@
         android:id="@+id/statusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iv_voice_search"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="29dp"
+        android:layout_marginBottom="17dp"
         android:text="마이크를 눌러주세요."
-        android:textSize="16sp"
         android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/voiceButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_voice_search" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
     <TextView
-        android:id="@+id/voice_result"
+        android:id="@+id/voice_result1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iv_voice_search"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="257dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="66dp"
         android:text=""
-        android:textSize="16sp"
         android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_voice_search" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/voice_result2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/voice_result1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

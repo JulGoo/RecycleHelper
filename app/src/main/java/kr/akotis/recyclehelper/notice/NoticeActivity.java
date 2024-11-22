@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import kr.akotis.recyclehelper.R;
+import kr.akotis.recyclehelper.community.Community;
 
 public class NoticeActivity extends AppCompatActivity {
 
@@ -37,7 +38,7 @@ public class NoticeActivity extends AppCompatActivity {
         // Firebase 데이터 초기화
         noticeRef = FirebaseDatabase.getInstance().getReference().child("Notice");
         FirebaseRecyclerOptions<Notice> options = new FirebaseRecyclerOptions.Builder<Notice>()
-                .setQuery(noticeRef, Notice.class)
+                .setQuery(noticeRef.orderByChild("date"), Notice.class)
                 .build();
 
         adapter = new NoticeAdapter(options);
