@@ -39,7 +39,7 @@ public class CommunityActivity extends AppCompatActivity {
 
         communityRef = FirebaseDatabase.getInstance().getReference().child("Community");
         FirebaseRecyclerOptions<Community> options = new FirebaseRecyclerOptions.Builder<Community>()
-                .setQuery(communityRef, Community.class)
+                .setQuery(communityRef.orderByChild("date"), Community.class)
                 .build();
 
         adapter = new CommunityAdapter(options);
