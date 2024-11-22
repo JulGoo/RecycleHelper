@@ -38,14 +38,4 @@
             android:background="@color/white" />
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/btn_reply"
-        android:layout_marginTop="5dp"
-        android:layout_width="45dp"
-        android:layout_height="50dp"
-        android:backgroundTint="@color/black"
-        app:srcCompat="@drawable/dot_icon"
-        app:tint="@color/white"
-        android:contentDescription="더 많은 기능 보기"
-        android:scaleType="fitCenter" />
 </LinearLayout>
