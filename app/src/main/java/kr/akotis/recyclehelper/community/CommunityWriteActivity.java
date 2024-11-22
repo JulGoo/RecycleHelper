@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
 
 import kr.akotis.recyclehelper.R;
 
@@ -159,23 +160,20 @@ public class CommunityWriteActivity extends AppCompatActivity {
     }
 
     // Firebase에 이미지를 업로드하는 메서드
-    private String uploadImageToFirebase(Uri imageUri) {
+    private void uploadImageToFirebase(Uri imageUri, CountDownLatch latch) {
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference imageRef = storageRef.child("images/" + UUID.randomUUID().toString() + ".jpg");
+        StorageReference imageRef = storageRef.child("Community/" + UUID.randomUUID().toString() + ".jpg");
 
         imageRef.putFile(imageUri)
-                .addOnSuccessListener(taskSnapshot -> {
-                    imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        String downloadUrl = uri.toString();
-                        saveURLs(downloadUrl);
-                        Log.d("TEST", downloadUrl);
-                        //saveImageUrlToDatabase(downloadUrl);
-                    });
-                })
+                .addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    String downloadUrl = uri.toString();
+                    saveURLs(downloadUrl); // URL 저장
+                    latch.countDown(); // 업로드 완료 시 카운터 감소
+                }))
                 .addOnFailureListener(e -> {
                     Toast.makeText(CommunityWriteActivity.this, "사진 업로드 실패", Toast.LENGTH_SHORT).show();
+                    latch.countDown(); // 실패해도 카운터 감소
                 });
-        return null;
     }
 
     private void saveURLs(String url) {
@@ -222,22 +220,32 @@ public class CommunityWriteActivity extends AppCompatActivity {
             return;
         }
 
-        System.out.println("THIS imgUrls SIZE IS : " + imgUrls.size());
-        if(!imgUrls.isEmpty()) {
-            System.out.println("NOT EMPTY");
-            for(String imgu : imgUrls) {
-                Uri uri = Uri.parse(imgu);
-                Log.d("Test -- " , imgu);
-                uploadImageToFirebase(uri);
-            }
+        // 비밀번호가 숫자인지 확인
+        if (!password.matches("\\d{4}")) { // 정규식: 숫자만 포함하는 문자열인지 체크
+            Toast.makeText(CommunityWriteActivity.this, "비밀번호는 숫자 4자리를 입력해주세요.", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        Log.d("VALUE : ", savedUrls);
-        saveImageUrlToDatabase();
+        if (!imgUrls.isEmpty()) {
+            // 업로드할 이미지 수를 기반으로 CountDownLatch 생성
+            CountDownLatch latch = new CountDownLatch(imgUrls.size());
 
-        // 초기화
-        savedUrls = "";
-        imgUrls = new ArrayList<>();
-        imageUri = null;
+            for (String imgu : imgUrls) {
+                Uri uri = Uri.parse(imgu);
+                uploadImageToFirebase(uri, latch); // latch 전달
+            }
+
+            // 새로운 스레드에서 모든 업로드 완료를 기다림
+            new Thread(() -> {
+                try {
+                    latch.await(); // 모든 업로드가 끝날 때까지 대기
+                    runOnUiThread(this::saveImageUrlToDatabase); // UI 스레드에서 데이터 저장 호출
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        } else {
+            saveImageUrlToDatabase(); // 이미지가 없으면 바로 데이터 저장
+        }
     }
 }

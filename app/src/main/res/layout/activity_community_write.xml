@@ -91,7 +91,7 @@
         android:id="@+id/et_password"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:hint="게시물 비밀번호를 입력하세요."
+        android:hint="비밀번호 숫자 4자리를 입력하세요."
         android:backgroundTint="@color/white"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
