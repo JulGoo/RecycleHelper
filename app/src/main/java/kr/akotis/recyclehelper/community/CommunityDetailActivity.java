@@ -8,10 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -43,6 +46,9 @@ public class CommunityDetailActivity extends AppCompatActivity {
     private ImageButton btnMenu, btnSend;
 
     private DatabaseReference commentRef;
+    private int thispw = 0;
+    private String id = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +76,19 @@ public class CommunityDetailActivity extends AppCompatActivity {
             popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
 
             popupMenu.setOnMenuItemClickListener(item -> {
-                Intent intent1 = new Intent(CommunityDetailActivity.this, PopupActivity.class);
-                intent1.putExtra("menu_id", item.getItemId()); // 선택된 메뉴 ID 전달
-                startActivity(intent1);
+                //Intent intent1 = new Intent(CommunityDetailActivity.this, PopupActivity.class);
+                //intent1.putExtra("menu_id", item.getItemId()); // 선택된 메뉴 ID 전달
+                //startActivity(intent1);
+
+
+                if(item.getItemId() == 2131230892) {
+                    showDeleteDialog();
+                } else {
+                    // 2131231143
+                    showReportDialog();
+                }
+
+
                 return true;
             });
 
@@ -91,6 +107,8 @@ public class CommunityDetailActivity extends AppCompatActivity {
             String formattedDate = sdf.format(new Date(community.getDate()));
 
             tvDate.setText(formattedDate);
+            thispw = community.getPwd();
+            id = community.getId();
 
             // 이미지 URL 리스트 처리
             String[] imgUrls = community.getImgUrls().split(",");
@@ -147,5 +165,109 @@ public class CommunityDetailActivity extends AppCompatActivity {
         if (commentAdapter != null) {
             commentAdapter.stopListening();
         }
+    }
+
+
+
+    private void showDeleteDialog() {
+        // AlertDialog 빌더 생성
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("정말로 삭제하시겠습니까?");
+
+        // 레이아웃 설정
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(50, 40, 50, 10); // 여백 조정
+
+        // 안내 텍스트 추가
+        TextView textView = new TextView(this);
+        textView.setText("게시글의 비밀번호를 입력해주세요.");
+        textView.setTextSize(16);
+        layout.addView(textView);
+
+        // 텍스트 입력란 추가
+        EditText editText = new EditText(this);
+        editText.setHint("여기에 입력하세요");
+        layout.addView(editText);
+
+        builder.setView(layout);
+
+        // 확인 버튼 설정
+        builder.setPositiveButton("확인", (dialog, which) -> {
+            // 입력값 처리
+            String inputText = editText.getText().toString().trim();
+            if(inputText.equals("")) {
+                Toast.makeText(this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+
+            try {
+                int a = Integer.parseInt(inputText);
+                if(a == thispw) {
+                    deleteItemFromFirebase();
+                } else {
+                    Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }catch(Exception e) {
+                Toast.makeText(this, "지원하지 않는 형식입니다.", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+
+
+
+            dialog.dismiss(); // 팝업 닫기
+        });
+
+        // 취소 버튼 설정
+        builder.setNegativeButton("취소", (dialog, which) -> dialog.dismiss());
+
+        // 다이얼로그 표시
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showReportDialog() {
+        // AlertDialog 빌더 생성
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("해당 게시글을 신고하시겠습니까?");
+
+        // 레이아웃 설정
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(50, 40, 50, 10); // 여백 조정
+
+        builder.setView(layout);
+
+        // 확인 버튼 설정
+        builder.setPositiveButton("확인", (dialog, which) -> {
+            // 입력값 처리
+            Toast.makeText(this, "신고가 완료 되었습니다.", Toast.LENGTH_SHORT).show();
+
+            dialog.dismiss(); // 팝업 닫기
+        });
+
+        // 취소 버튼 설정
+        builder.setNegativeButton("취소", (dialog, which) -> dialog.dismiss());
+
+        // 다이얼로그 표시
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void deleteItemFromFirebase() {
+        // Firebase DatabaseReference 초기화
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Community");
+
+        // 특정 ID 데이터 삭제
+        databaseRef.child(id).removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    // 성공적으로 삭제된 경우
+                    Toast.makeText(this, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    // 삭제 실패한 경우
+                    Toast.makeText(this, "삭제에 실패하였습니다", Toast.LENGTH_SHORT).show();
+                });
     }
 }
