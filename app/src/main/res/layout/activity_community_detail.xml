@@ -23,6 +23,7 @@
             android:backgroundTint="@color/black"
             app:tint="@color/white"
             app:srcCompat="@drawable/btn_menu"
+            android:contentDescription="메뉴"
             android:scaleType="fitCenter" />
     </LinearLayout>
 
@@ -62,7 +63,7 @@
             app:layout_constraintTop_toBottomOf="@id/et_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:contentDescription="구분 선"/>
+            android:importantForAccessibility="no"/>
 
         <TextView
             android:id="@+id/tv_content"

@@ -23,6 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@color/black"
         android:scaleType="fitCenter"
+        android:importantForAccessibility="no"
         android:adjustViewBounds="true" />
 
     <ImageButton
