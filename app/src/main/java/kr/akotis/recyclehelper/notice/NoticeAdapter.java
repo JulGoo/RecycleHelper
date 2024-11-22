@@ -12,7 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import kr.akotis.recyclehelper.R;
+import kr.akotis.recyclehelper.community.Community;
 
 public class NoticeAdapter extends FirebaseRecyclerAdapter<Notice, NoticeAdapter.NoticeViewHolder> {
 
@@ -22,14 +27,26 @@ public class NoticeAdapter extends FirebaseRecyclerAdapter<Notice, NoticeAdapter
 
     @Override
     protected void onBindViewHolder(@NonNull NoticeViewHolder holder, int position, @NonNull Notice model) {
-        holder.tvNoticeTitle.setText(model.getTitle());
-        holder.tvNoticeDate.setText(model.getDate());
+        // 최신순 정렬: position을 역순으로 처리
+        int reversePosition = getItemCount() - 1 - position;
+        Notice reverseModel = getSnapshots().get(reversePosition);
+
+
+        holder.tvNoticeTitle.setText(reverseModel.getTitle());
+        holder.tvNoticeDate.setText(reverseModel.getDate());
+
+        // 타임스탬프를 읽어 날짜로 변환
+        //long timestamp = Long.parseLong(reverseModel.getDate());
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        //String formattedDate = sdf.format(new Date(timestamp));
+        holder.tvNoticeDate.setText(reverseModel.getDate());
+
 
         // 클릭 이벤트 처리
         holder.itemView.setOnClickListener(v -> {
             // NoticeDetailActivity로 이동
             Intent intent = new Intent(holder.itemView.getContext(), NoticeDetailActivity.class);
-            intent.putExtra("notice", model);  // Parcelable 객체를 인텐트에 전달
+            intent.putExtra("notice", reverseModel);  // Parcelable 객체를 인텐트에 전달
             holder.itemView.getContext().startActivity(intent);
         });
     }

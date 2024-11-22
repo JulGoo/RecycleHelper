@@ -23,11 +23,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="커뮤니티"
-            android:textSize="40sp"
-            android:textStyle="bold"
             android:gravity="center"
-            android:textColor="@color/white"/>
+            android:text="커뮤니티"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

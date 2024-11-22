@@ -30,6 +30,7 @@ public class CommunityImgAdapter extends RecyclerView.Adapter<CommunityImgAdapte
     @NonNull
     @Override
     public CommunityImgAdapter.ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d("ViewHolder", "onCreateViewHolder called");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_img_community, parent, false);
         return new ImageViewHolder(view);
     }
@@ -60,6 +61,8 @@ public class CommunityImgAdapter extends RecyclerView.Adapter<CommunityImgAdapte
                 Log.e("Glide Error", "Failed to load image: " + e.getMessage());
             });
         } else {
+            Log.d("Image Binding", "**************Binding URL at position " + position + ": " + imgUrl);
+
             Glide.with(holder.itemView.getContext())
                     .load(imgUrl)
                     .placeholder(R.drawable.placeholder)
