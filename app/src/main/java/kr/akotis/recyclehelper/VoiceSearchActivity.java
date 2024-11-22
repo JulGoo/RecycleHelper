@@ -329,7 +329,7 @@ public class VoiceSearchActivity extends AppCompatActivity implements TextToSpee
                 Toast.makeText(this, "지원하지 않는 언어입니다.", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "TTS 실패!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "TTS에 실패하였습니다.", Toast.LENGTH_SHORT).show();
         }
     }
 
