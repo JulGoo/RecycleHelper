@@ -61,7 +61,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/pet"
-                    android:contentDescription="페트병 사진"
+                    android:importantForAccessibility="no"
                     android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -89,7 +89,7 @@
                     android:layout_height="100dp"
                     android:src="@drawable/plastic"
                     android:scaleType="fitCenter"
-                    android:contentDescription="플라스틱 샴푸 통 사진"
+                    android:importantForAccessibility="no"
                     android:layout_marginEnd="16dp" />
 
                 <TextView
@@ -134,7 +134,7 @@
                     android:layout_height="100dp"
                     android:src="@drawable/ballpoint"
                     android:scaleType="centerCrop"
-                    android:contentDescription="볼펜 사진"
+                    android:importantForAccessibility="no"
                     android:layout_marginEnd="16dp" />
             </LinearLayout>
 

@@ -38,5 +38,6 @@
         app:layout_constraintTop_toBottomOf="@id/ll_notice"
         app:layout_constraintBottom_toBottomOf="parent"
         android:padding="16dp"
+        android:importantForAccessibility="no"
         tools:listitem="@layout/item_notice"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

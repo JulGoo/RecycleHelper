@@ -121,7 +121,7 @@
             android:layout_height="50dp"
             app:srcCompat="@drawable/btn_send"
             android:scaleType="fitCenter"
-            android:contentDescription="댓글 쓰기 버튼"
+            android:contentDescription="댓글 작성 버튼"
             android:backgroundTint="@color/black" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

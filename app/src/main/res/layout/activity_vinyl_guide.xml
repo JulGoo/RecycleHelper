@@ -61,7 +61,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/vinyl"
-                    android:contentDescription="과자 봉지"
+                    android:importantForAccessibility="no"
                     android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -89,7 +89,7 @@
                     android:layout_height="100dp"
                     android:src="@drawable/vinylbag"
                     android:scaleType="fitCenter"
-                    android:contentDescription="손잡이가 다른 소재인 플라스틱 가방"
+                    android:importantForAccessibility="no"
                     android:layout_marginEnd="16dp" />
 
                 <TextView
@@ -134,7 +134,7 @@
                     android:layout_height="100dp"
                     android:src="@drawable/vinylgloves"
                     android:scaleType="centerCrop"
-                    android:contentDescription="비닐 장갑"
+                    android:importantForAccessibility="no"
                     android:layout_marginEnd="16dp" />
             </LinearLayout>
 

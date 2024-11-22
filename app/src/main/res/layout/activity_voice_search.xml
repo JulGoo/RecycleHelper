@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="17dp"
-        android:text="마이크를 눌러주세요."
+        android:text="마이크 버튼을 누른 상태에서 말해주세요."
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/voiceButton"

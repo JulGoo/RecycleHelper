@@ -59,7 +59,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/styrofoam"
-                    android:contentDescription="스티로폼 도시락 용기"
+                    android:importantForAccessibility="no"
                     android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -87,7 +87,7 @@
                     android:layout_height="100dp"
                     android:src="@drawable/styrofoambox"
                     android:scaleType="centerCrop"
-                    android:contentDescription="깨끗하게 비워진 스티로폼 박스"
+                    android:importantForAccessibility="no"
                     android:layout_marginEnd="16dp" />
 
                 <TextView
@@ -132,7 +132,7 @@
                     android:layout_height="100dp"
                     android:src="@drawable/contaminatedstyrofoam"
                     android:scaleType="centerCrop"
-                    android:contentDescription="음식물이 뭍은 스티로폼 용기"
+                    android:importantForAccessibility="no"
                     android:layout_marginEnd="16dp" />
             </LinearLayout>
 

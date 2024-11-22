@@ -61,7 +61,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/glassbottle"
-                    android:contentDescription="유리 병 사진"
+                    android:importantForAccessibility="no"
                     android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -89,7 +89,7 @@
                     android:layout_height="100dp"
                     android:src="@drawable/brokenglass"
                     android:scaleType="centerCrop"
-                    android:contentDescription="깨진 유리 사진"
+                    android:importantForAccessibility="no"
                     android:layout_marginEnd="16dp" />
 
                 <TextView
@@ -134,7 +134,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/pump"
-                    android:contentDescription="플라스틱과 스프링이 혼합된 펌프용기 사진"
+                    android:importantForAccessibility="no"
                     android:scaleType="centerCrop" />
             </LinearLayout>
 
@@ -162,7 +162,7 @@
                     android:layout_height="100dp"
                     android:src="@drawable/mirror"
                     android:scaleType="centerCrop"
-                    android:contentDescription="거울 사진"
+                    android:importantForAccessibility="no"
                     android:layout_marginEnd="16dp" />
 
                 <TextView
