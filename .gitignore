@@ -16,3 +16,5 @@
 local.properties
 google-services.json
 apikey.properties
+*.abb
+*.apk
