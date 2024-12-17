@@ -11,7 +11,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="@drawable/bg_guide">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,22 +20,20 @@
             android:padding="16dp">
 
             <TextView
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_title"
+                android:layout_margin="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="비닐류"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="32dp" />
+                android:gravity="center"
+                android:textSize="40sp"
+                android:fontFamily="@font/jua_regular"
+                android:text="비닐류" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="비닐류"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp" />
@@ -52,8 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 과자 봉지, 라면 봉지, 비닐 랩 등은 이물질을 제거하고 깨끗한 상태로 배출합니다.\n• 물기와 음식물이 묻지 않도록 하고, 가능한 압착해서 배출해주세요."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp"
                     android:layout_marginEnd="16dp" />
 
@@ -69,9 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="비닐 포장재"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:gravity="end"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
@@ -97,8 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 비닐 쇼핑백, 포장용 비닐은 내용물을 비우고, 테이프(라벨, 스티커 등) 이물질은 제거 후 배출합니다."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp" />
             </LinearLayout>
 
@@ -106,9 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="재활용 안 되는 것"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp" />
@@ -125,8 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 오염된 비닐 (기름, 음식물 등이 묻은 비닐)\n• 영수증, 라벨 등 복합 재질이 섞인 비닐\n• 일회용 비닐 장갑, 비닐 부츠 등 재활용이 어려운 비닐류"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp" />
 
                 <ImageView

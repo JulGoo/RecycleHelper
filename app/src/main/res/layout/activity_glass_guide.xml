@@ -11,7 +11,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="@drawable/bg_guide">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,22 +20,20 @@
             android:padding="16dp">
 
             <TextView
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_title"
+                android:layout_margin="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="유리병류"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="32dp" />
+                android:gravity="center"
+                android:textSize="40sp"
+                android:fontFamily="@font/jua_regular"
+                android:text="유리병류" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="유리병류"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp" />
@@ -52,8 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 맥주병, 소주병 등 빈 병은 깨끗이 씻은 후 분리하여 배출하세요.\n• 내용물을 비우고 병뚜껑은 제거 후 배출합니다.\n• 라벨(종이)과 플라스틱 뚜껑은 반드시 제거해야 재활용이 가능합니다."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp"
                     android:layout_marginEnd="16dp" />
 
@@ -69,9 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="깨진 유리"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:gravity="end"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
@@ -97,8 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 깨진 유리는 종이에 싸서 일반 쓰레기로 배출해야 합니다.\n• 다칠 위험이 있으니 유리 조각은 잘 모아서 안전하게 처리하세요."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp" />
             </LinearLayout>
 
@@ -106,9 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="유리 용기류"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp" />
@@ -125,8 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 소스병 등 유리와 다른 재질을 제거 후 배출하세요.\n• 플라스틱 뚜껑이나 금속 캡은 별도로 분리 배출해야 합니다.\n• 이물질이 남아 있는 경우 세척 후 배출이 필요합니다."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp"
                     android:layout_marginEnd="16dp" />
 
@@ -142,9 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="재활용 안 되는 것"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:gravity="end"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
@@ -170,8 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 오염된 유리병 (기름이나 음식물이 묻은 유리병)\n• 강화유리 (창문, 거울 등)\n• 유리로 된 조각상, 식기류 등 비유리 재질이 포함된 제품"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp" />
             </LinearLayout>
 

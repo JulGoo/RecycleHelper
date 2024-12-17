@@ -11,7 +11,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="@drawable/bg_guide">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,22 +20,20 @@
             android:padding="16dp">
 
             <TextView
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_title"
+                android:layout_margin="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="종이/종이팩"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="32dp" />
+                android:gravity="center"
+                android:textSize="40sp"
+                android:fontFamily="@font/jua_regular"
+                android:text="종이/종이팩" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="상자류 (골판지 박스)"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp" />
@@ -52,8 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 테이프, 스티커, 철핀 등 이물질을 제거한 후 배출합니다.\n• 이물질이 혼합되지 않도록 깨끗하게 접어서 배출하세요."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp"
                     android:layout_marginEnd="16dp" />
 
@@ -69,9 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="신문지"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:gravity="end"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
@@ -97,8 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 신문지는 물에 젖지 않도록 하고, 끈으로 묶어 정리 후 배출하세요.\n• 광고지 등 다른 종이는 분리하여 배출해야 합니다."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp" />
             </LinearLayout>
 
@@ -106,9 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="책자류"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp" />
@@ -125,8 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 책자류는 스프링, 플라스틱 표지 등 종이와 다른 재질을 제거한 후 배출합니다.\n• 표지가 코팅된 경우 일반 쓰레기로 분류될 수 있습니다."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp"
                     android:layout_marginEnd="16dp" />
 
@@ -142,9 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="종이팩"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:gravity="end"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
@@ -170,8 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 종이팩은 내용물을 비우고 물로 깨끗이 씻은 뒤 배출합니다.\n• 빨대, 비닐 코팅 등의 다른 재질은 제거 후 배출해야 합니다.\n• 종이팩 전용 수거함이 있는 경우 전용 수거함에 배출하세요."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp" />
             </LinearLayout>
 
@@ -179,9 +167,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="재활용 안 되는 것"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp" />
@@ -193,16 +179,14 @@
                 android:layout_marginBottom="60dp"
                 android:gravity="center_vertical">
 
-
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 오염된 종이 (기름이 묻은 종이, 물티슈, 기저귀 등)\n• 영수증류 (감열지, 팩스용지)\n• 코팅된 종이 (코팅된 포장재, 벽지 등)\n• 비닐코팅 및 기타 재질이 혼합된 종이"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp" />
+
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"

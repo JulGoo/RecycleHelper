@@ -23,23 +23,26 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RecycleHelper"
+        android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
             android:name=".FullScreenImgActivity"
             android:exported="false" />
         <activity
             android:name=".community.CommunityWriteActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".community.CommunityDetailActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".community.PopupActivity"
             android:exported="false" />
         <activity
             android:name=".community.CommunityActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".recycleGuide.StyrofoamGuideActivity"
             android:exported="false" />
@@ -60,7 +63,8 @@
             android:exported="false" />
         <activity
             android:name=".notice.NoticeDetailActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".notice.NoticeActivity"
             android:exported="false" />

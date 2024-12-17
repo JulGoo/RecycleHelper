@@ -11,7 +11,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="@drawable/bg_guide">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,22 +20,21 @@
             android:padding="16dp">
 
             <TextView
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_title"
+                android:layout_margin="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="금속캔/고철"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="32dp" />
+                android:gravity="center"
+                android:textSize="40sp"
+                android:fontFamily="@font/jua_regular"
+                android:textColor="@color/black"
+                android:text="금속캔/고철" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="철캔, 알루미늄캔"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp" />
@@ -59,8 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 음료수 캔, 맥주 캔, 알루미늄 호일 등은 내용물을 비우고 분리 배출합니다.\n• 철캔은 압착하여 배출하면 더욱 좋습니다.\n• 플라스틱 뚜껑이나 라벨이 씌워져 있는 경우 제거 후 배출합니다."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp"
                     android:layout_marginEnd="16dp" />
             </LinearLayout>
@@ -69,9 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="고철류"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:gravity="end"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
@@ -84,14 +80,12 @@
                 android:layout_marginBottom="60dp"
                 android:gravity="center_vertical">
 
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 못, 철사, 철판 등 고철류는 분리하여 배출합니다.\n• 크기가 큰 고철류는 지역에 따라 대형폐기물로 배출해야 할 수 있습니다."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp" />
                 <ImageView
                     android:layout_width="100dp"
@@ -106,9 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="기타 금속 제품"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp" />
@@ -132,8 +124,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 프라이팬, 냄비 등 사용하지 않는 금속 제품은 폐금속 처리장으로 배출합니다.\n• 손잡이나 플라스틱 부속품은 제거 후 배출합니다."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp"
                     android:layout_marginEnd="16dp" />
             </LinearLayout>
@@ -142,9 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="재활용 안 되는 금속"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:gravity="end"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
@@ -170,8 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 오염된 금속 캔 (페인트, 기름 등이 묻은 캔)\n• 부탄가스, 소화용기 등 위험성이 있는 금속 제품\n• 녹이 심하게 슬거나 부서진 금속 제품"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp" />
             </LinearLayout>
 

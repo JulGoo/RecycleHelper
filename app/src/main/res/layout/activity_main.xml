@@ -6,38 +6,45 @@
     android:id="@+id/recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@drawable/bg_main"
     tools:context=".MainActivity">
 
-    <ImageButton
-        android:id="@+id/black"
+
+    <LinearLayout
+        android:id="@+id/ll_title"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="1"
-        app:layout_constraintHeight_percent="0.04"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
+        android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/black"
-        android:scaleType="fitCenter"
-        android:importantForAccessibility="no"
-        android:adjustViewBounds="true" />
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintWidth_percent="1">
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="50sp"
+            android:fontFamily="@font/jua_regular"
+            android:textColor="@color/black"
+            android:text="분리도우미" />
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/btn_img_search"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="1"
-        app:layout_constraintHeight_percent="0.25"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHeight_percent="0.21"
+        android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/black"
+        app:layout_constraintTop_toBottomOf="@+id/ll_title"
         app:srcCompat="@drawable/btn_img_search"
         android:scaleType="fitCenter"
         android:contentDescription="이미지 검색"
@@ -47,25 +54,23 @@
         android:id="@+id/btn_voice_search"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
-        app:layout_constraintHeight_percent="0.33"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_img_search"
-        app:layout_constraintWidth_percent="0.5"
-        app:srcCompat="@drawable/btn_voice_search"
-        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
         android:contentDescription="음성 검색"
-        android:adjustViewBounds="true" />
+        android:scaleType="fitCenter"
+        app:layout_constraintHeight_percent="0.29"
+        app:layout_constraintStart_toStartOf="@+id/btn_img_search"
+        app:layout_constraintTop_toBottomOf="@+id/btn_img_search"
+        app:layout_constraintWidth_percent="0.45"
+        app:srcCompat="@drawable/btn_voice_search" />
 
     <ImageButton
         android:id="@+id/btn_recycling_guide"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintHeight_percent="0.33"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintHeight_percent="0.29"
+        android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="@+id/btn_img_search"
         app:layout_constraintTop_toBottomOf="@+id/btn_img_search"
         app:srcCompat="@drawable/btn_recycling_guide"
@@ -77,10 +82,9 @@
         android:id="@+id/btn_notice"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintHeight_percent="0.33"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintHeight_percent="0.29"
+        android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="@+id/btn_img_search"
         app:layout_constraintTop_toBottomOf="@+id/btn_voice_search"
         app:srcCompat="@drawable/btn_notice"
@@ -92,15 +96,16 @@
         android:id="@+id/btn_community"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintHeight_percent="0.33"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintHeight_percent="0.29"
+        android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="@+id/btn_img_search"
         app:layout_constraintTop_toBottomOf="@+id/btn_recycling_guide"
         app:srcCompat="@drawable/btn_community"
         android:scaleType="fitCenter"
         android:contentDescription="커뮤니티"
         android:adjustViewBounds="true" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

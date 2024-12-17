@@ -5,111 +5,122 @@
     android:id="@+id/recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@drawable/bg_guide"
     tools:context=".recycleGuide.RecycleGuideActivity">
 
-    <ImageButton
-        android:id="@+id/black"
+    <LinearLayout
+        android:id="@+id/ll_title"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="1"
-        app:layout_constraintHeight_percent="0.04"
-        android:backgroundTint="@color/black"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/black"
-        android:scaleType="fitCenter"
-        android:importantForAccessibility="no"
-        android:adjustViewBounds="true" />
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintWidth_percent="0.9">
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="50sp"
+            android:fontFamily="@font/jua_regular"
+            android:textColor="@color/black"
+            android:text="분리배출요령" />
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/btn_paper_guide"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintHeight_percent="0.3"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/black"
-        app:srcCompat="@drawable/btn_paper_guide"
-        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
         android:contentDescription="종이, 종이팩"
-        android:adjustViewBounds="true" />
+        android:scaleType="fitCenter"
+        android:paddingTop="5dp"
+        app:layout_constraintHeight_percent="0.26"
+        app:layout_constraintStart_toStartOf="@+id/ll_title"
+        app:layout_constraintTop_toBottomOf="@+id/ll_title"
+        app:layout_constraintWidth_percent="0.45"
+        app:srcCompat="@drawable/btn_paper_guide" />
 
     <ImageButton
         android:id="@+id/btn_can_guide"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintHeight_percent="0.3"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/black"
-        app:srcCompat="@drawable/btn_can_guide"
-        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
         android:contentDescription="금속 캔, 고철"
-        android:adjustViewBounds="true" />
+        android:scaleType="fitCenter"
+        android:paddingTop="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/ll_title"
+        app:layout_constraintHeight_percent="0.26"
+        app:layout_constraintTop_toBottomOf="@+id/ll_title"
+        app:layout_constraintWidth_percent="0.45"
+        app:srcCompat="@drawable/btn_can_guide" />
 
     <ImageButton
         android:id="@+id/btn_glass_guide"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintHeight_percent="0.3"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_paper_guide"
-        app:srcCompat="@drawable/btn_glass_guide"
-        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
         android:contentDescription="유리병류"
-        android:adjustViewBounds="true" />
+        android:scaleType="fitCenter"
+        android:paddingTop="5dp"
+        app:layout_constraintHeight_percent="0.26"
+        app:layout_constraintStart_toStartOf="@+id/ll_title"
+        app:layout_constraintTop_toBottomOf="@+id/btn_paper_guide"
+        app:layout_constraintWidth_percent="0.45"
+        app:srcCompat="@drawable/btn_glass_guide" />
 
     <ImageButton
         android:id="@+id/btn_plastic_guide"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintHeight_percent="0.3"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_can_guide"
-        app:srcCompat="@drawable/btn_plastic_guide"
-        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
         android:contentDescription="플라스틱 용기류"
-        android:adjustViewBounds="true" />
+        android:scaleType="fitCenter"
+        android:paddingTop="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/ll_title"
+        app:layout_constraintHeight_percent="0.26"
+        app:layout_constraintTop_toBottomOf="@+id/btn_can_guide"
+        app:layout_constraintWidth_percent="0.45"
+        app:srcCompat="@drawable/btn_plastic_guide" />
 
     <ImageButton
         android:id="@+id/btn_vinyl_guide"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintHeight_percent="0.3"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_glass_guide"
-        app:srcCompat="@drawable/btn_vinyl_guide"
-        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
         android:contentDescription="비닐류"
-        android:adjustViewBounds="true" />
+        android:scaleType="fitCenter"
+        android:paddingTop="5dp"
+        app:layout_constraintHeight_percent="0.26"
+        app:layout_constraintStart_toStartOf="@+id/ll_title"
+        app:layout_constraintTop_toBottomOf="@+id/btn_glass_guide"
+        app:layout_constraintWidth_percent="0.45"
+        app:srcCompat="@drawable/btn_vinyl_guide" />
 
     <ImageButton
         android:id="@+id/btn_styrofoam_guide"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintHeight_percent="0.3"
-        android:backgroundTint="@color/black"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_plastic_guide"
-        app:srcCompat="@drawable/btn_styrofoam_guide"
-        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
         android:contentDescription="스티로폼"
-        android:adjustViewBounds="true" />
+        android:scaleType="fitCenter"
+        android:paddingTop="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/ll_title"
+        app:layout_constraintHeight_percent="0.26"
+        app:layout_constraintTop_toBottomOf="@+id/btn_plastic_guide"
+        app:layout_constraintWidth_percent="0.45"
+        app:srcCompat="@drawable/btn_styrofoam_guide" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

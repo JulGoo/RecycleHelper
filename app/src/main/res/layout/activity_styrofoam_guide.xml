@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".recycleGuide.StyrofoamGuideActivity">
+
     <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="@drawable/bg_guide">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,21 +20,20 @@
             android:padding="16dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_title"
+                android:layout_margin="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="스티로폼"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="32dp" />
+                android:gravity="center"
+                android:textSize="40sp"
+                android:fontFamily="@font/jua_regular"
+                android:text="스티로폼" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="스티로폼"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp" />
@@ -50,8 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 스티로폼 포장재는 이물질이 없도록 깨끗이 세척한 후 배출합니다.\n• 스티커나 테이프 등 다른 재질은 제거한 후 배출하세요.\n• 부피가 큰 스티로폼은 압착하여 배출하면 더 효율적입니다."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp"
                     android:layout_marginEnd="16dp" />
 
@@ -67,9 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="스티로폼 박스"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:gravity="end"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
@@ -95,8 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 과일이나 생선 등의 운반용 스티로폼 박스는 내용물을 비우고, 내부를 깨끗이 세척한 후 배출합니다.\n• 박스에 붙어 있는 테이프, 라벨, 기타 이물질은 제거한 후 배출하세요."
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp" />
             </LinearLayout>
 
@@ -104,9 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="재활용 안 되는 것"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp" />
@@ -123,8 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="• 오염된 스티로폼 (음식물, 기름 등이 묻은 스티로폼)\n• 코팅된 스티로폼 (방수 처리된 스티로폼 등)\n• 파손된 스티로폼 (부서진 작은 조각 등)\n• 건축 자재용 스티로폼"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:lineSpacingExtra="4dp" />
 
                 <ImageView
