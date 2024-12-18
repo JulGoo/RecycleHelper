@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_weight="1"
-            android:hint="Search here"
+            android:hint="여기에 검색하세요."
             android:padding="10dp"
             android:paddingBottom="3dp"
             android:backgroundTint="@color/white"
@@ -70,5 +70,6 @@
         app:maxImageSize="50dp"
         android:scaleType="centerInside"
         android:contentDescription="글 쓰기 버튼"
+        android:accessibilityTraversalBefore="@id/recycler_community"
         android:importantForAccessibility="yes"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
