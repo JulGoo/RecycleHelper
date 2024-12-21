@@ -1,9 +1,12 @@
 package kr.akotis.recyclehelper.community;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,6 +34,29 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, CommentAdap
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
         String formattedDate = sdf.format(new Date(model.getDate()));
         holder.tvDate.setText(formattedDate);
+
+        holder.btnMenu.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
+            MenuInflater inflater = popupMenu.getMenuInflater();
+            inflater.inflate(R.menu.popup, popupMenu.getMenu());
+
+            // 메뉴 아이템 클릭 이벤트 처리
+            popupMenu.setOnMenuItemClickListener(item -> {
+                Log.d("menu", "menu_title: " + item.getTitle());
+                if(item.getTitle().equals("삭제")) {
+                    ((CommunityDetailActivity) v.getContext()).showDeleteDialog(model);
+                    return true;
+                } else if (item.getTitle().equals("신고")) {
+                    ((CommunityDetailActivity) v.getContext()).showReportDialog(model);
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            // PopupMenu 표시
+            popupMenu.show();
+        });
     }
 
     @NonNull
@@ -43,13 +69,13 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, CommentAdap
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
         TextView tvContent, tvDate;
-        ImageButton btnOption;
+        ImageButton btnMenu;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             tvContent = itemView.findViewById(R.id.tv_comment_content);
             tvDate = itemView.findViewById(R.id.tv_comment_date);
-            btnOption = itemView.findViewById(R.id.btn_comment_menu);
+            btnMenu = itemView.findViewById(R.id.btn_comment_menu);
         }
     }
 }

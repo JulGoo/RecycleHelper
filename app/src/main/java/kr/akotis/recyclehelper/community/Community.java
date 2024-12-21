@@ -6,19 +6,19 @@ import android.os.Parcelable;
 import java.util.Map;
 
 public class Community implements Parcelable {
-    private String id;
+    private String postId;
     private String title;
     private String content;
     private Long date;
     private String imgUrls;
-    private String hashedPwd; // 필드 이름 변경
+    private String hashedPwd;
     private int report;
     private Map<String, Comment> comments;
 
     public Community() {}
 
-    public Community(String id, String title, String content, Long date, String imgUrls, String hashedPwd, int report, Map<String, Comment> comments) {
-        this.id = id;
+    public Community(String postId, String title, String content, Long date, String imgUrls, String hashedPwd, int report, Map<String, Comment> comments) {
+        this.postId = postId;  // postId 사용
         this.title = title;
         this.content = content;
         this.date = date;
@@ -28,12 +28,12 @@ public class Community implements Parcelable {
         this.comments = comments;
     }
 
-    public String getId() {
-        return id;
+    public String getPostId() {  // getter 변경
+        return postId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPostId(String postId) {  // setter 변경
+        this.postId = postId;
     }
 
     public String getTitle() {
@@ -93,7 +93,7 @@ public class Community implements Parcelable {
     }
 
     protected Community(Parcel in) {
-        id = in.readString();
+        postId = in.readString();  // postId 읽기
         title = in.readString();
         content = in.readString();
         date = in.readLong();
@@ -122,7 +122,7 @@ public class Community implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeString(postId);  // postId 저장
         dest.writeString(title);
         dest.writeString(content);
         dest.writeLong(date);

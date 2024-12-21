@@ -194,7 +194,7 @@ public class CommunityWriteActivity extends AppCompatActivity {
                     savedUrls,
                     hashedPwd,
                     0,  // 신고 횟수
-                    new HashMap<>()
+                    new HashMap<>() // 댓글
             );
 
             databaseRef.child(communityId).setValue(community)

@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="RecycleHelper">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-12-21T13:42:42.790416500Z">
+        <DropdownSelection timestamp="2024-12-21T16:11:02.328710700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=R5CT508CGMB" />
