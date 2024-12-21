@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,8 +80,6 @@ public class CommunityWriteActivity extends AppCompatActivity {
         // 작성 완료 버튼
         btnSubmit.setOnClickListener(v -> submitPost());
     }
-
-
 
     private boolean allPermissionsGranted() {
         for (String permission : REQUIRED_PERMISSIONS) {
@@ -184,7 +183,7 @@ public class CommunityWriteActivity extends AppCompatActivity {
     }
 
     // Firebase Database에 이미지 URL 저장
-    private void saveImageUrlToDatabase() {
+    private void saveImageUrlToDatabase(String hashedPwd) {
         String communityId = databaseRef.push().getKey();
         if (communityId != null) {
             Community community = new Community(
@@ -193,7 +192,7 @@ public class CommunityWriteActivity extends AppCompatActivity {
                     etContent.getText().toString(),
                     System.currentTimeMillis(),
                     savedUrls,
-                    etPassword.getText().toString().trim(),
+                    hashedPwd,
                     0,  // 신고 횟수
                     new HashMap<>()
             );
@@ -226,6 +225,13 @@ public class CommunityWriteActivity extends AppCompatActivity {
             return;
         }
 
+        // 비밀번호 해시 처리
+        String hashedPwd = hashPwd(password);
+        if (hashedPwd == null) {
+            Toast.makeText(CommunityWriteActivity.this, "비밀번호 처리에 문제가 있습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (!imgUrls.isEmpty()) {
             // 업로드할 이미지 수를 기반으로 CountDownLatch 생성
             CountDownLatch latch = new CountDownLatch(imgUrls.size());
@@ -239,13 +245,33 @@ public class CommunityWriteActivity extends AppCompatActivity {
             new Thread(() -> {
                 try {
                     latch.await(); // 모든 업로드가 끝날 때까지 대기
-                    runOnUiThread(this::saveImageUrlToDatabase); // UI 스레드에서 데이터 저장 호출
+                    runOnUiThread(() -> saveImageUrlToDatabase(hashedPwd)); // UI 스레드에서 데이터 저장 호출
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }).start();
         } else {
-            saveImageUrlToDatabase(); // 이미지가 없으면 바로 데이터 저장
+            saveImageUrlToDatabase(hashedPwd); // 이미지가 없으면 바로 데이터 저장
+        }
+    }
+
+    // 비밀번호 암호화
+    private String hashPwd(String pwd) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(pwd.getBytes());
+            StringBuilder hexString = new StringBuilder();
+
+            //해시 값을 16진수 문자열로 변환
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

@@ -3,6 +3,7 @@ package kr.akotis.recyclehelper.community;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,11 +43,13 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, CommentAdap
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
         TextView tvContent, tvDate;
+        ImageButton btnOption;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             tvContent = itemView.findViewById(R.id.tv_comment_content);
             tvDate = itemView.findViewById(R.id.tv_comment_date);
+            btnOption = itemView.findViewById(R.id.btn_comment_menu);
         }
     }
 }

@@ -11,19 +11,19 @@ public class Community implements Parcelable {
     private String content;
     private Long date;
     private String imgUrls;
-    private String pwd;
+    private String hashedPwd; // 필드 이름 변경
     private int report;
     private Map<String, Comment> comments;
 
     public Community() {}
 
-    public Community(String id, String title, String content, Long date, String imgUrls, String pwd, int report, Map<String, Comment> comments) {
+    public Community(String id, String title, String content, Long date, String imgUrls, String hashedPwd, int report, Map<String, Comment> comments) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;
         this.imgUrls = imgUrls;
-        this.pwd = pwd;
+        this.hashedPwd = hashedPwd; // 변경된 필드 사용
         this.report = report;
         this.comments = comments;
     }
@@ -68,12 +68,12 @@ public class Community implements Parcelable {
         this.imgUrls = imgUrls;
     }
 
-    public String getPwd() {
-        return pwd;
+    public String getHashedPwd() { // 변경된 Getter
+        return hashedPwd;
     }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setHashedPwd(String hashedPwd) { // 변경된 Setter
+        this.hashedPwd = hashedPwd;
     }
 
     public int getReport() {
@@ -92,13 +92,13 @@ public class Community implements Parcelable {
         this.comments = comments;
     }
 
-    protected Community(Parcel in){
+    protected Community(Parcel in) {
         id = in.readString();
         title = in.readString();
         content = in.readString();
         date = in.readLong();
         imgUrls = in.readString();
-        pwd = in.readString();
+        hashedPwd = in.readString(); // 변경된 필드
         report = in.readInt();
         comments = in.readHashMap(Comment.class.getClassLoader());
     }
@@ -127,7 +127,7 @@ public class Community implements Parcelable {
         dest.writeString(content);
         dest.writeLong(date);
         dest.writeString(imgUrls);
-        dest.writeString(pwd);
+        dest.writeString(hashedPwd); // 변경된 필드
         dest.writeInt(report);
         dest.writeMap(comments);
     }

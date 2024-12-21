@@ -39,11 +39,10 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/btn_comment_menu"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginTop="5dp"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
         android:background="@drawable/dot_icon" />
-
 
 </LinearLayout>

@@ -2,10 +2,9 @@ package kr.akotis.recyclehelper.community;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -23,12 +22,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -49,8 +47,9 @@ public class CommunityDetailActivity extends AppCompatActivity {
     private ImageButton btnMenu, btnSend;
 
     private DatabaseReference commentRef;
-    private String thispw = "";
+    private String thisHashedPwd = "";
     private String id = "";
+    private Community community;
 
 
     @Override
@@ -69,15 +68,16 @@ public class CommunityDetailActivity extends AppCompatActivity {
         recyclerComments = findViewById(R.id.recycler_comments);
         etComment = findViewById(R.id.et_comment);
         btnSend = findViewById(R.id.btn_send);
+
         btnSend.setOnClickListener(v -> {
             String commentText = etComment.getText().toString();
+
             if (commentText.isEmpty()) {
                 Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            }else {
+                showCommentPasswordDialog(commentText);
             }
-
-            sendToFirebase(commentText);
         });
-
 
         // 삭제, 신고 메뉴
         btnMenu = findViewById(R.id.btn_menu);
@@ -88,22 +88,16 @@ public class CommunityDetailActivity extends AppCompatActivity {
             popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
 
             popupMenu.setOnMenuItemClickListener(item -> {
-                //Intent intent1 = new Intent(CommunityDetailActivity.this, PopupActivity.class);
-                //intent1.putExtra("menu_id", item.getItemId()); // 선택된 메뉴 ID 전달
-                //startActivity(intent1);
-
                 Log.d("menu", "menu_title: " + item.getTitle());
                 if(item.getTitle().equals("삭제")) {
-                    showDeleteDialog();
+                    showDeleteDialog(community);
                 } else {
                     // 2131231143
                     showReportDialog();
                 }
 
-
                 return true;
             });
-
             popupMenu.show();
         });
 
@@ -119,7 +113,7 @@ public class CommunityDetailActivity extends AppCompatActivity {
             String formattedDate = sdf.format(new Date(community.getDate()));
 
             tvDate.setText(formattedDate);
-            thispw = community.getPwd();
+            thisHashedPwd = community.getHashedPwd();
             id = community.getId();
 
             // 이미지 URL 리스트 처리
@@ -143,8 +137,6 @@ public class CommunityDetailActivity extends AppCompatActivity {
             } else {
                 Log.e("RecyclerView Init", "Image URLs are null or empty.");
             }
-
-
 
             // Firebase에서 댓글 경로 설정
             commentRef = FirebaseDatabase.getInstance()
@@ -194,9 +186,24 @@ public class CommunityDetailActivity extends AppCompatActivity {
         }
     }
 
+    private String hashedPwd(String pwd) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = digest.digest(pwd.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hashBytes) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();  // SHA-256 해시된 비밀번호 반환
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-
-    private void showDeleteDialog() {
+    private void showDeleteDialog(Object target) {
         // AlertDialog 빌더 생성
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("정말로 삭제하시겠습니까?");
@@ -228,18 +235,44 @@ public class CommunityDetailActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
 
+            // 입력한 비밀번호 해시 처리
+            String hashedInput = hashedPwd(inputText);
+
+//            try {
+//                if(hashedInput != null && hashedInput.equals(thisHashedPwd)) {
+//                    deleteItemFromFirebase();
+//                } else {
+//                    Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+//                }
+//            }catch(Exception e) {
+//                Toast.makeText(this, "지원하지 않는 형식입니다.", Toast.LENGTH_SHORT).show();
+//                e.printStackTrace();
+//            }
+//
+//            dialog.dismiss(); // 팝업 닫기
+//        });
+
+            // 삭제 대상이 게시글인지 댓글인지 확인
             try {
-                if(inputText.equals(thispw)) {
-                    deleteItemFromFirebase();
-                } else {
-                    Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+                if (target instanceof Community) {
+                    Community community = (Community) target;
+                    if (hashedInput != null && hashedInput.equals(community.getHashedPwd())) {
+                        deleteItemFromFirebase(community);
+                    } else {
+                        Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (target instanceof Comment) {
+                    Comment comment = (Comment) target;
+                    if (hashedInput != null && hashedInput.equals(comment.getPwd())) {
+                        deleteCommentFromFirebase(comment);
+                    } else {
+                        Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }catch(Exception e) {
+            } catch (Exception e) {
                 Toast.makeText(this, "지원하지 않는 형식입니다.", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-
-
 
             dialog.dismiss(); // 팝업 닫기
         });
@@ -280,33 +313,111 @@ public class CommunityDetailActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void deleteItemFromFirebase() {
-        // Firebase DatabaseReference 초기화
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Community");
+//    private void deleteItemFromFirebase() {
+//        // Firebase DatabaseReference 초기화
+//        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Community");
+//
+//        // 특정 ID 데이터 삭제
+//        databaseRef.child(id).removeValue()
+//                .addOnSuccessListener(aVoid -> {
+//                    // 성공적으로 삭제된 경우
+//                    Toast.makeText(this, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+//                    finish();
+//                })
+//                .addOnFailureListener(e -> {
+//                    // 삭제 실패한 경우
+//                    Toast.makeText(this, "삭제에 실패하였습니다", Toast.LENGTH_SHORT).show();
+//                });
+//    }
 
-        // 특정 ID 데이터 삭제
-        databaseRef.child(id).removeValue()
+    // 게시글 삭제
+    private void deleteItemFromFirebase(Community community) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Community");
+        databaseRef.child(community.getId()).removeValue()
                 .addOnSuccessListener(aVoid -> {
-                    // 성공적으로 삭제된 경우
                     Toast.makeText(this, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    // 삭제 실패한 경우
                     Toast.makeText(this, "삭제에 실패하였습니다", Toast.LENGTH_SHORT).show();
                 });
     }
 
+    //댓글 작성 다이얼로그
+    private void showCommentPasswordDialog(String commentText) {
+        // 다이얼로그 빌더 생성
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("댓글 비밀번호를 입력해주세요.");
+
+        // 비밀번호 입력란 생성
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(50, 40, 50, 10);  // 여백 조정
+
+        // 안내 텍스트 추가
+        TextView textView = new TextView(this);
+        textView.setText("댓글 비밀번호를 입력하세요.");
+        textView.setTextSize(16);
+        layout.addView(textView);
+
+        // 비밀번호 입력란 추가
+        EditText etPwd = new EditText(this);
+        etPwd.setHint("여기에 비밀번호를 입력하세요");
+        etPwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);  // 비밀번호 입력 스타일
+        layout.addView(etPwd);
+
+        builder.setView(layout);
+
+        // 확인 버튼 설정
+        builder.setPositiveButton("확인", (dialog, which) -> {
+            // 입력된 비밀번호 가져오기
+            String inputPwd = etPwd.getText().toString().trim();
+
+            // 비밀번호가 비어있는지 확인
+            if(inputPwd.isEmpty()) {
+                Toast.makeText(this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // 비밀번호 해시 처리
+            String hashedPwd = hashedPwd(inputPwd);
+
+            // 비밀번호가 유효하면 Firebase에 댓글 추가
+            sendToFirebase(commentText, hashedPwd);
+        });
+
+        // 취소 버튼 설정
+        builder.setNegativeButton("취소", (dialog, which) -> dialog.dismiss());
+
+        // 다이얼로그 표시
+        builder.create().show();
+    }
+
+    // 댓글 삭제
+    private void deleteCommentFromFirebase(Comment comment) {
+        DatabaseReference commentRef = FirebaseDatabase.getInstance()
+                .getReference("Community")
+                .child(id)
+                .child("comments");
+
+        commentRef.child(comment.getId()).removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "댓글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "댓글 삭제 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
 
     // firebase 댓글 추가
-    private void sendToFirebase(String commentText) {
+    private void sendToFirebase(String commentText, String hashedPwd) {
         DatabaseReference communityRef = FirebaseDatabase.getInstance().getReference("Community").child(id).child("comments");
         String key = communityRef.push().getKey();
         if(key != null) {
             Map<String, Object> commentData = new HashMap<>();
             commentData.put("content", commentText);
             commentData.put("date", System.currentTimeMillis());
-            commentData.put("pwd", "1234");
+            commentData.put("pwd", hashedPwd);
             commentData.put("report", 0);
 
             communityRef.child(key).setValue(commentData)
@@ -318,6 +429,23 @@ public class CommunityDetailActivity extends AppCompatActivity {
                         Toast.makeText(this, "댓글 추가 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         }
+    }
+
+    private void setupCommentPopupMenu(View view, Comment comment) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if(item.getTitle().equals("삭제")) {
+                // 댓글 삭제
+                showDeleteDialog(comment);
+            } else {
+                showReportDialog();
+            }
+            return true;
+        });
+
+        popupMenu.show();
     }
 
 
