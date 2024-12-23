@@ -67,7 +67,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:fabSize="auto"
         android:backgroundTint="@color/light_beige"
-        app:maxImageSize="50dp"
+        app:maxImageSize="40dp"
         android:scaleType="centerInside"
         android:contentDescription="글 쓰기 버튼"
         android:accessibilityTraversalBefore="@id/recycler_community"

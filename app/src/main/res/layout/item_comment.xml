@@ -43,6 +43,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="5dp"
+        android:contentDescription="댓글 수정 삭제 버튼ㅗ"
         android:background="@drawable/dot_icon" />
 
 </LinearLayout>
