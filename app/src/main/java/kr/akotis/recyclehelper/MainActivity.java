@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view == btnImageSearch) {
             Log.v("Image", "Image");
             Intent imageSearchIntent = new Intent(MainActivity.this, ImgSearchActivity.class);
+            //Intent imageSearchIntent = new Intent(MainActivity.this, RtImageActivity.class);
             startActivity(imageSearchIntent);
         } else if (view == btnVoiceSearch) {
             Log.v("VoiceSearch", "VoiceSearch");
