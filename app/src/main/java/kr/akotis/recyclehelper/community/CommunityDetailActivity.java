@@ -239,19 +239,18 @@ public class CommunityDetailActivity extends AppCompatActivity {
                 }
         };
         editText.setFilters(filters);
-        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD); // 입력된 값은 비밀번호처럼 *로 표시됨
 
         layout.addView(editText);
-
         builder.setView(layout);
 
         // 확인 버튼 설정
         builder.setPositiveButton("확인", (dialog, which) -> {
             // 입력값 처리
             String inputText = editText.getText().toString().trim();
-            if (inputText.equals("")) {
-                Toast.makeText(this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
+            if (inputText.length() != 4) {  // 입력값이 4자리가 아닐 경우
+                Toast.makeText(this, "비밀번호 4자리를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                return; // 4자리가 아니면 더 이상 진행하지 않음
             }
 
             // 입력한 비밀번호 해시 처리
@@ -430,24 +429,22 @@ public class CommunityDetailActivity extends AppCompatActivity {
                 }
         };
         etPwd.setFilters(filters);
-        etPwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);  // 비밀번호 입력 스타일
-        layout.addView(etPwd);
+        etPwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD); // 입력된 값은 비밀번호처럼 *로 표시됨
 
+        layout.addView(etPwd);
         builder.setView(layout);
 
         // 확인 버튼 설정
         builder.setPositiveButton("확인", (dialog, which) -> {
-            // 입력된 비밀번호 가져오기
-            String inputPwd = etPwd.getText().toString().trim();
-
-            // 비밀번호가 비어있는지 확인
-            if (inputPwd.isEmpty()) {
-                Toast.makeText(this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                return;
+            // 입력값 처리
+            String inputText = etPwd.getText().toString().trim();
+            if (inputText.length() != 4) {  // 입력값이 4자리가 아닐 경우
+                Toast.makeText(this, "비밀번호는 4자리를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                return; // 4자리가 아니면 더 이상 진행하지 않음
             }
 
             // 비밀번호 해시 처리
-            String hashedPwd = hashedPwd(inputPwd);
+            String hashedPwd = hashedPwd(inputText);
 
             // 비밀번호가 유효하면 Firebase에 댓글 추가
             sendToFirebase(commentText, hashedPwd);

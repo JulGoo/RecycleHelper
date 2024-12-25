@@ -1,11 +1,9 @@
 package kr.akotis.recyclehelper.community;
 
-
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Log;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,7 +11,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -79,8 +76,23 @@ public class CommunityWriteActivity extends AppCompatActivity {
 
         // 작성 완료 버튼
         btnSubmit.setOnClickListener(v -> submitPost());
+
+        InputFilter[] filters = new InputFilter[]{
+                new InputFilter.LengthFilter(4),
+                (source, start, end, dest, dstart, dend) -> {
+                    for (int i = start; i < end; i++) {
+                        if (!Character.isDigit(source.charAt(i))) {
+                            return "";
+                        }
+                    }
+                    return null; // 입력 가능한 경우
+                }
+        };
+        etPassword.setFilters(filters);
+        etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD); // 입력된 값은 비밀번호처럼 *로 표시됨
     }
 
+    //권한 확인
     private boolean allPermissionsGranted() {
         for (String permission : REQUIRED_PERMISSIONS) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
@@ -214,15 +226,9 @@ public class CommunityWriteActivity extends AppCompatActivity {
         String content = etContent.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(content) || TextUtils.isEmpty(password)) {
-            Toast.makeText(CommunityWriteActivity.this, "모든 필드를 입력해주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // 비밀번호가 숫자인지 확인
-        if (!password.matches("\\d{4}")) { // 정규식: 숫자만 포함하는 문자열인지 체크
-            Toast.makeText(CommunityWriteActivity.this, "비밀번호는 숫자 4자리를 입력해주세요.", Toast.LENGTH_SHORT).show();
-            return;
+        if (password.length() != 4) {  // 입력값이 4자리가 아닐 경우
+            Toast.makeText(this, "비밀번호는 4자리를 입력해주세요.", Toast.LENGTH_SHORT).show();
+            return; // 4자리가 아니면 더 이상 진행하지 않음
         }
 
         // 비밀번호 해시 처리

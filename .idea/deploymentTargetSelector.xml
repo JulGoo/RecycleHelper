@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="RecycleHelper">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-12-21T16:11:02.328710700Z">
+        <DropdownSelection timestamp="2024-12-22T17:50:49.474812600Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=R5CT508CGMB" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\sysop\.android\avd\Pixel_7_API_30_R.avd" />
             </handle>
           </Target>
         </DropdownSelection>

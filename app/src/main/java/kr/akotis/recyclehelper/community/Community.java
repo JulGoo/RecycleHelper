@@ -3,7 +3,9 @@ package kr.akotis.recyclehelper.community;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Community implements Parcelable {
     private String postId;
@@ -14,8 +16,10 @@ public class Community implements Parcelable {
     private String hashedPwd;
     private int report;
     private Map<String, Comment> comments;
+    private String searchField; // 추가된 필드
 
-    public Community() {}
+    public Community() {
+    }
 
     public Community(String postId, String title, String content, Long date, String imgUrls, String hashedPwd, int report, Map<String, Comment> comments) {
         this.postId = postId;  // postId 사용
@@ -26,6 +30,7 @@ public class Community implements Parcelable {
         this.hashedPwd = hashedPwd; // 변경된 필드 사용
         this.report = report;
         this.comments = comments;
+        this.searchField = generateSearchField(title, content); // title과 content를 합쳐 2-gram으로 searchField 설정
     }
 
     public String getPostId() {  // getter 변경
@@ -92,6 +97,25 @@ public class Community implements Parcelable {
         this.comments = comments;
     }
 
+    public String getSearchField() {
+        return searchField;
+    }
+
+    // title과 content를 합쳐서 2-gram을 생성하는 메소드 (trim 및 연속 공백 처리)
+    private String generateSearchField(String title, String content) {
+        String combinedText = (title + " " + content).toLowerCase().trim().replaceAll("\\s+", " ");
+
+        Set<String> nGrams = new HashSet<>();
+
+        //2-gram 생성
+        for (int i = 0; i < combinedText.length() - 1; i++) {
+            String nGram = combinedText.substring(i, i + 2);   //2글자씩 자름
+            nGrams.add(nGram);  //Set에 추가하여 중복 제거
+        }
+
+        return String.join(" ", nGrams);
+    }
+
     protected Community(Parcel in) {
         postId = in.readString();  // postId 읽기
         title = in.readString();
@@ -101,6 +125,7 @@ public class Community implements Parcelable {
         hashedPwd = in.readString(); // 변경된 필드
         report = in.readInt();
         comments = in.readHashMap(Comment.class.getClassLoader());
+        searchField = in.readString(); // searchField 읽기
     }
 
     public static final Creator<Community> CREATOR = new Creator<Community>() {
@@ -130,5 +155,6 @@ public class Community implements Parcelable {
         dest.writeString(hashedPwd); // 변경된 필드
         dest.writeInt(report);
         dest.writeMap(comments);
+        dest.writeString(searchField); // searchField 저장
     }
 }
