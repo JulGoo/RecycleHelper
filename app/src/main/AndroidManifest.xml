@@ -37,9 +37,6 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".community.PopupActivity"
-            android:exported="false" />
-        <activity
             android:name=".community.CommunityActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>

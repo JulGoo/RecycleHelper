@@ -4,4 +4,5 @@
     android:layout_width="100dp"
     android:layout_height="100dp"
     android:scaleType="centerCrop"
+    android:contentDescription="사진이미지"
     android:layout_margin="8dp" />

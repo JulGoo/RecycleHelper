@@ -29,9 +29,10 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="148dp"
         android:layout_marginEnd="20dp"
-        android:text="검색할 물건을 말해주세요"
+        android:text="버튼을 눌러 검색할 물건을 말해주세요"
         android:textColor="@color/black"
         android:textSize="35sp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +54,7 @@
 
 
     <TextView
-        android:id="@+id/voice_result1"
+        android:id="@+id/voice_result2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -68,20 +69,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/voice_result2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="54dp"
-        android:layout_marginEnd="20dp"
-        android:text=""
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/voice_result1" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

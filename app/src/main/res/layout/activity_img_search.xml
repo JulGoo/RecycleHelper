@@ -35,6 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:contentDescription="로딩중입니다"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +66,9 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:gravity="center" />
+            android:padding="4sp"
+            android:gravity="center"
+            android:layout_gravity="center" />
     </LinearLayout>
 
 

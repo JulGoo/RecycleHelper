@@ -1,13 +1,20 @@
 package kr.akotis.recyclehelper.community;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -36,6 +43,7 @@ public class CommunityActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private EditText etSearch;
     private ImageButton btnSearch;
+    private static final int PERMISSION_REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,7 @@ public class CommunityActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_community);
 
+        /*
         etSearch = findViewById(R.id.et_search);
         btnSearch = findViewById(R.id.btn_search);
 
@@ -55,6 +64,7 @@ public class CommunityActivity extends AppCompatActivity {
                 searchCommunity("");
             }
         });
+         */
 
         rv = findViewById(R.id.recycler_community);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -72,6 +82,10 @@ public class CommunityActivity extends AppCompatActivity {
             // 커뮤니티 작성 화면으로 이동
             startActivity(new Intent(CommunityActivity.this, CommunityWriteActivity.class));
         });
+
+
+        // 권한 요청
+        checkAndRequestPermissions();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.recycler_view), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -136,6 +150,7 @@ public class CommunityActivity extends AppCompatActivity {
         super.onResume();
         if (adapter != null) {
             adapter.notifyDataSetChanged(); // 데이터를 강제로 다시 표시
+            adapter.startListening();
         }
     }
 
@@ -159,4 +174,35 @@ public class CommunityActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+
+
+    private void checkAndRequestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                // 권한이 없는 경우 요청
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+            } else {
+                // 권한이 이미 허용됨
+                //Toast.makeText(this, "이미지 저장 권한이 이미 허용되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "이미지 저장 권한이 허용되었습니다.", Toast.LENGTH_SHORT).show();
+                // 권한이 허용된 경우 수행할 작업
+            } else {
+                Toast.makeText(this, "이미지 저장 권한이 거부되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
 }

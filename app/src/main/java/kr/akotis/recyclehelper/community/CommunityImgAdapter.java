@@ -1,6 +1,7 @@
 package kr.akotis.recyclehelper.community;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,9 +53,11 @@ public class CommunityImgAdapter extends RecyclerView.Adapter<CommunityImgAdapte
                         .into(holder.ivImage);
 
                 holder.ivImage.setOnClickListener(v -> {
-                    Intent intent = new Intent(holder.itemView.getContext(), FullScreenImgActivity.class);
-                    intent.putExtra("imageUrl", uri.toString());
-                    holder.itemView.getContext().startActivity(intent);
+                    //Intent intent = new Intent(holder.itemView.getContext(), FullScreenImgActivity.class);
+                    //intent.putExtra("imageUrl", uri.toString());
+                    //holder.itemView.getContext().startActivity(intent);
+                    FullScreenImgActivity fia = new FullScreenImgActivity();
+                    fia.show(holder.itemView.getContext(), Uri.parse(imgUrl));
                 });
 
             }).addOnFailureListener(e -> {
@@ -70,9 +73,11 @@ public class CommunityImgAdapter extends RecyclerView.Adapter<CommunityImgAdapte
                     .into(holder.ivImage);
 
             holder.ivImage.setOnClickListener(v -> {
-                Intent intent = new Intent(holder.itemView.getContext(), FullScreenImgActivity.class);
-                intent.putExtra("imageUrl", imgUrl);
-                holder.itemView.getContext().startActivity(intent);
+                //Intent intent = new Intent(holder.itemView.getContext(), FullScreenImgActivity.class);
+                //intent.putExtra("imageUrl", imgUrl);
+                //holder.itemView.getContext().startActivity(intent);
+                FullScreenImgActivity fia = new FullScreenImgActivity();
+                fia.show(holder.itemView.getContext(), Uri.parse(imgUrl));
             });
         }
     }

@@ -74,7 +74,6 @@ public class VoiceSearchActivity extends AppCompatActivity implements TextToSpee
 
         micImageView = findViewById(R.id.voiceButton);
         statusTextView = findViewById(R.id.statusTextView);
-        resultTextView1 = findViewById(R.id.voice_result1);
         resultTextView2 = findViewById(R.id.voice_result2);
         tts = new TextToSpeech(this, this); //첫번째는 Context 두번째는 리스너
 

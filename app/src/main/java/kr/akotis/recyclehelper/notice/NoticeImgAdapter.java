@@ -1,6 +1,7 @@
 package kr.akotis.recyclehelper.notice;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,9 +56,11 @@ public class NoticeImgAdapter extends RecyclerView.Adapter<NoticeImgAdapter.Imag
                 // 클릭 이벤트 설정
                 holder.ivImage.setOnClickListener(v -> {
                     // FullScreenImageActivity 호출
-                    Intent intent = new Intent(holder.itemView.getContext(), FullScreenImgActivity.class);
-                    intent.putExtra("imageUrl", uri.toString());
-                    holder.itemView.getContext().startActivity(intent);
+                    //Intent intent = new Intent(holder.itemView.getContext(), FullScreenImgActivity.class);
+                    //intent.putExtra("imageUrl", uri.toString());
+                    //holder.itemView.getContext().startActivity(intent);
+                    FullScreenImgActivity fia = new FullScreenImgActivity();
+                    fia.show(holder.itemView.getContext(), Uri.parse(imgUrl));
                 });
 
             }).addOnFailureListener(e -> {
@@ -74,9 +77,11 @@ public class NoticeImgAdapter extends RecyclerView.Adapter<NoticeImgAdapter.Imag
             // 클릭 이벤트 설정
             holder.ivImage.setOnClickListener(v -> {
                 // FullScreenImageActivity 호출
-                Intent intent = new Intent(holder.itemView.getContext(), FullScreenImgActivity.class);
-                intent.putExtra("imageUrl", imgUrl);
-                holder.itemView.getContext().startActivity(intent);
+                //Intent intent = new Intent(holder.itemView.getContext(), FullScreenImgActivity.class);
+                //intent.putExtra("imageUrl", imgUrl);
+                //holder.itemView.getContext().startActivity(intent);
+                FullScreenImgActivity fia = new FullScreenImgActivity();
+                fia.show(holder.itemView.getContext(), Uri.parse(imgUrl));
             });
         }
     }
