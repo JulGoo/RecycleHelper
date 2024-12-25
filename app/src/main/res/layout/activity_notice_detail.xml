@@ -38,7 +38,6 @@
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:background="@color/black"
-            android:layout_margin="10dp"
             android:importantForAccessibility="no"
             app:layout_constraintTop_toBottomOf="@id/et_title"
             app:layout_constraintStart_toStartOf="parent"

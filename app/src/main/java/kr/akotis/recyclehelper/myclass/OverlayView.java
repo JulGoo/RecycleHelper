@@ -4,36 +4,41 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OverlayView  extends View {
+public class OverlayView extends View {
+
+    private final List<RectF> boundingBoxes = new ArrayList<>();
     private final Paint boxPaint;
-    private final List<Rect> boundingBoxes = new ArrayList<>();
 
     public OverlayView(Context context, AttributeSet attrs) {
         super(context, attrs);
         boxPaint = new Paint();
-        boxPaint.setColor(Color.RED); // 경계 상자 색상
+        boxPaint.setColor(Color.RED);
         boxPaint.setStyle(Paint.Style.STROKE);
-        boxPaint.setStrokeWidth(8.0f); // 경계 상자 두께
+        boxPaint.setStrokeWidth(8f);
     }
 
-    public void setBoundingBoxes(List<Rect> boxes) {
+    public void drawBoundingBox(RectF box) {
+        boundingBoxes.add(box);
+        invalidate(); // Redraw the view
+    }
+
+    public void clear() {
         boundingBoxes.clear();
-        boundingBoxes.addAll(boxes);
-        invalidate(); // 화면 다시 그리기
+        invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (Rect box : boundingBoxes) {
-            canvas.drawRect(box, boxPaint); // 경계 상자 그리기
+        for (RectF box : boundingBoxes) {
+            canvas.drawRect(box, boxPaint);
         }
     }
 }

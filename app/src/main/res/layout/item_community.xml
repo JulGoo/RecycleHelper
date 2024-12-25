@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/bg"
-    android:padding="16dp">
+    android:padding="5dp">
 
     <LinearLayout
         android:id="@+id/ll_community3"
