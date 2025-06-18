@@ -76,6 +76,7 @@ public class CommunityDetailActivity extends AppCompatActivity {
 
             if (commentText.isEmpty()) {
                 Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                //Log.d("TESTTESTTEST", "millisecond : " + Long.toString(System.currentTimeMillis()));
             } else {
                 showCommentPasswordDialog(commentText);
             }
@@ -482,6 +483,7 @@ public class CommunityDetailActivity extends AppCompatActivity {
             commentData.put("commentId", commentId);
             commentData.put("content", commentText);
             commentData.put("date", System.currentTimeMillis());
+            //commentData.put("date", Long.parseLong("1737400440000"));
             commentData.put("pwd", hashedPwd);
             commentData.put("report", 0);
 

@@ -217,7 +217,7 @@ public class ImgSearchActivity extends AppCompatActivity implements TextToSpeech
 
     // API 서버에 요청
     private void sendToFlaskServer(byte[] byteArray) {
-        String serverUrl = "https://mojuk.kr/vision";
+        String serverUrl = "https://akotis.kr/vision";
 
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(byteArray, MediaType.parse("image/jpeg"));

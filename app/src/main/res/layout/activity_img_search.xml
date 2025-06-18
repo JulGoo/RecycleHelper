@@ -80,7 +80,7 @@
         android:layout_height="70dp"
         android:layout_marginBottom="70dp"
         android:background="@drawable/circle_button_background"
-        android:contentDescription="촬영 버튼"
+        android:contentDescription="촬영"
         android:scaleType="centerInside"
         android:src="@android:drawable/ic_menu_camera"
         app:layout_constraintBottom_toBottomOf="parent"

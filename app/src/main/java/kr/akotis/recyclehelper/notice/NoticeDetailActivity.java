@@ -2,6 +2,7 @@ package kr.akotis.recyclehelper.notice;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -43,7 +44,9 @@ public class NoticeDetailActivity extends AppCompatActivity {
 
         if (notice != null) {
             tvTitle.setText(notice.getTitle());
-            tvContent.setText(notice.getContent());
+            String replaceContent = notice.getContent().replace("\\n", "<br>");
+            tvContent.setText(Html.fromHtml(replaceContent));
+            //tvContent.setText(replaceContent);
             tvDate.setText(notice.getDate());
 
             // 이미지 URL 리스트 처리

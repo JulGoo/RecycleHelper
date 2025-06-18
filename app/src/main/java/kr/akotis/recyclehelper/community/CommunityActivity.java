@@ -198,7 +198,7 @@ public class CommunityActivity extends AppCompatActivity {
                 Toast.makeText(this, "이미지 저장 권한이 허용되었습니다.", Toast.LENGTH_SHORT).show();
                 // 권한이 허용된 경우 수행할 작업
             } else {
-                Toast.makeText(this, "이미지 저장 권한이 거부되었습니다.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "이미지 저장 권한이 거부되었습니다.", Toast.LENGTH_SHORT).show();
             }
         }
     }
