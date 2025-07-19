@@ -8,7 +8,7 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 android {
     namespace 'kr.akotis.recyclehelper'
-    compileSdk 34
+    compileSdk 35
 
     buildFeatures {
         buildConfig true
@@ -17,9 +17,9 @@ android {
     defaultConfig {
         applicationId "kr.akotis.recyclehelper"
         minSdk 27
-        targetSdk 34
-        versionCode 6
-        versionName "1.6"
+        targetSdk 35
+        versionCode 7
+        versionName "1.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
