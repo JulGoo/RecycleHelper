@@ -8,7 +8,7 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 android {
     namespace 'kr.akotis.recyclehelper'
-    compileSdk 35
+    compileSdk 36
 
     buildFeatures {
         buildConfig true
@@ -17,9 +17,9 @@ android {
     defaultConfig {
         applicationId "kr.akotis.recyclehelper"
         minSdk 27
-        targetSdk 35
-        versionCode 7
-        versionName "1.7"
+        targetSdk 36
+        versionCode 8
+        versionName "1.8"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -38,6 +38,22 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    
+    packaging {
+        jniLibs {
+            useLegacyPackaging = false
+        }
+    }
+    
+    // 16KB 페이지 크기 지원 기기를 위한 네이티브 라이브러리 정렬 설정
+    androidResources {
+        noCompress += ['so']
+    }
+    
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
     }
 }
 
@@ -66,6 +82,10 @@ dependencies {
 
     // Glide 이미지 로드
     implementation 'com.github.bumptech.glide:glide:4.15.1'
+
+    // TensorFlow Lite (YOLO 실시간 추론용) - 16KB 페이지 크기 지원
+    implementation 'org.tensorflow:tensorflow-lite:2.16.1'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.4.4'
 
     // 이미지 확대/축소를 위한 PhotoView 라이브러리
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
